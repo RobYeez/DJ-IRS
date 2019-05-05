@@ -13,7 +13,7 @@ app.use(
     })
 )
 
-const mongoURI = 'mongdb://localhost:27017/dj-irs'
+const mongoURI = 'mongodb://localhost:27017/dj-irs_admin'
 
 mongoose
     .connect(mongoURI, {useNewUrlParser: true})
