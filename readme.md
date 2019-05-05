@@ -13,21 +13,22 @@ react
 nodejs
 
 ## To set up server
-	Start mongodb:
+Start mongodb:
 
-sudo systemctl start mongod.service
-sudo systemctl enable mongod.service
+	sudo systemctl start mongod.service
+	sudo systemctl enable mongod.service
 
-	verify:
-sudo systemctl status mongod
+verify:
+	sudo systemctl status mongod
 
-	Start mongo shell:
+Start mongo shell:
 
-mongo --host 127.0.0.1:27017
+	mongo --host 127.0.0.1:27017
 
 
-	stop mongodb:
-sudo systemctl stop mongod.service
+stop mongodb:
 
-	look here for more 
+	sudo systemctl stop mongod.service
+
+look here for more 
 https://docs.mongodb.com/manual/mongo/
