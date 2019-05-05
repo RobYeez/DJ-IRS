@@ -7,9 +7,9 @@ The FM Music Player is a music-sharing mobile application where two or more user
 [Scrum Template](https://docs.google.com/spreadsheets/d/1nhRw-kVF4KX5-mIonh-vHwY4g8o0PF9JAonYF4kTRXc/edit?usp=sharing)
 
 ## Install 
-mongodb
-express
-react
+mongodb,
+express,
+react,
 nodejs
 
 ## To set up server
@@ -19,6 +19,7 @@ Start mongodb:
 	sudo systemctl enable mongod.service
 
 verify:
+
 	sudo systemctl status mongod
 
 Start mongo shell:
@@ -26,6 +27,7 @@ Start mongo shell:
 	mongo --host 127.0.0.1:27017
 
 Inside mongo shell:
+
 	use dj-irs_admin
 
 
@@ -40,4 +42,5 @@ https://docs.mongodb.com/manual/mongo/
 
 use a sepreate terminal
 cd into/src
+
 	npm run dev
