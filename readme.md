@@ -25,6 +25,9 @@ Start mongo shell:
 
 	mongo --host 127.0.0.1:27017
 
+Inside mongo shell:
+	use dj-irs_admin
+
 
 stop mongodb:
 
@@ -32,3 +35,9 @@ stop mongodb:
 
 look here for more 
 https://docs.mongodb.com/manual/mongo/
+
+## To start our server
+
+use a sepreate terminal
+cd into/src
+	npm run dev
