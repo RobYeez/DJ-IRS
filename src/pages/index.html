@@ -1,0 +1,42 @@
+<style>
+  .body {
+    text-align: center;
+  }
+  .title {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-weight: 200;
+    font-size: 130px;
+    text-align: center;
+  }
+  .parcont {
+    max-width: 100%;
+    position: relative;
+    top: 600px;
+    padding: 10px;
+    background-color: Snow;
+  }
+
+  .background {
+    background-image: url("assets/img/homebkgrnd.jpg");
+    height: 600px;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+  }
+</style>
+<body>
+  {{> top-bar-login}}
+  <div class="background">
+    <p><i class="fi-arrow-down"></i></p>
+  </div>
+  <div class="parcont">
+    <div class="title">DJ IRS
+    </div>
+    <p class="body"><i>Find new music. Make new friends.</i></p>
+
+  </div>
+</body>
