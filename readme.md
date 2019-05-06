@@ -3,6 +3,11 @@ The FM Music Player is a music-sharing mobile application where two or more user
 
 ## Documentation
 [User Stories](https://docs.google.com/document/d/1wzlLbw7m6ggItiiTl4VYiQNSGIIzgpAHu4oyI8SCSow/edit?usp=sharing)
+### Sprint 2 User Stories to Demo
+* Sharing new music: As a user, I would like to share music between my friends.
+* Syncing - As a user with friends, I would like to sync my current song to what they are listening to (essentially streaming the music to them in real time).
+* Group Queue - As a user that listens with friends often, my friends and I often want to play different songs without interrupting what is currently playing.
+
 
 [Scrum Template](https://docs.google.com/spreadsheets/d/1nhRw-kVF4KX5-mIonh-vHwY4g8o0PF9JAonYF4kTRXc/edit?usp=sharing)
 
