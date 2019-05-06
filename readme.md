@@ -15,16 +15,15 @@ nodejs
 ## To set up server
 Start mongodb:
 
-	sudo systemctl start mongod.service
-	sudo systemctl enable mongod.service
+	sudo service mongod start
 
 verify:
 
-	sudo systemctl status mongod
+	sudo service mongod status
 
 Start mongo shell:
 
-	mongo --host 127.0.0.1:27017
+	mongo 
 
 Inside mongo shell:
 
