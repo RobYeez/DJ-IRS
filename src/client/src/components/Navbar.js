@@ -12,12 +12,12 @@ class Navbar extends Component {
         const loginRegLink = (
             <ul className="navbar-nav">
                 <li className="nav-item">
-                    <Link to="/login" className="nav-link">
+                    <Link to="login" className="nav-link">
                         Login
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/register" className="nav-link">
+                    <Link to="register" className="nav-link">
                         Register
                     </Link>
                 </li>
@@ -26,7 +26,7 @@ class Navbar extends Component {
         const userLink = (
             <ul className="navbar-nav">
                 <li className="nav-item">
-                    <Link to="/profile" className="nav-link">
+                    <Link to="profile" className="nav-link">
                         User
                     </Link>
                 </li>
@@ -51,7 +51,7 @@ class Navbar extends Component {
 
                 <div className="collapse navbar-collapse.justify-content-md-center" id="navbar1">
                     <ul className="navbar-nav">
-                        <Link to="" className="nav-link">
+                        <Link to="/" className="nav-link">
                             Home
                         </Link>
                     </ul>

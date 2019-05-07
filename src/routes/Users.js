@@ -4,7 +4,7 @@ const cors = require("cors")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 
-const User = require("../models/User")
+const User = require("../models/User").default
 users.use(cors())
 
 process.env.SECRET_KEY = 'secret'
@@ -58,7 +58,7 @@ users.post('/login', (req, res) => {
                 }
                 let token = jwt.sign(payload, process.env.SECRET_KEY, {
                     expiresIn:1440
-                }) 
+                })
                 res.send(token)
             }else{
                 res.json({error:"User does not exist"})

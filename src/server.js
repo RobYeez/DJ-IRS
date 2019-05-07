@@ -13,10 +13,10 @@ app.use(
     })
 )
 
-const mongoURI = 'mongodb://localhost:27017/dj-irs_admin'
+const mongoURL = 'mongodb://localhost:27017'
 
 mongoose
-    .connect(mongoURI, {useNewUrlParser: true})
+    .connect(mongoURL, {useNewUrlParser: true})
     .then(() => console.log("MongoDB connected"))
     .catch(err => console.log(err))
 
