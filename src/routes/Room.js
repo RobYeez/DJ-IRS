@@ -3,9 +3,9 @@ import SearchBar from '../searchFunction/Searchbar';
 import youtube from '../apis/youtube';
 import VideoList from '../searchFunction/VideoList';
 import VideoDetail from '../searchFunction/VideoDetail';
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
 
-class Room extends React.Component {
+export default class Room extends React.Component {
     state = {
         videos: [],
         selectedVideo: null
@@ -38,12 +38,6 @@ class Room extends React.Component {
                             <Link to="/UserPage">User</Link>
                         </li>
                         <li>
-                            <Link to="/login">Login</Link>
-                        </li>
-                        <li>
-                            <Link to="/signup">Signup</Link>
-                        </li>
-                        <li>
                             <Link to="/room">Room</Link>
                         </li>
                         </ul>
@@ -64,5 +58,3 @@ class Room extends React.Component {
         )
     }
 }
-
-export default Room;
