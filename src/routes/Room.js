@@ -3,6 +3,7 @@ import SearchBar from '../searchFunction/Searchbar';
 import youtube from '../apis/youtube';
 import VideoList from '../searchFunction/VideoList';
 import VideoDetail from '../searchFunction/VideoDetail';
+import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 class Room extends React.Component {
     state = {
@@ -26,6 +27,28 @@ class Room extends React.Component {
     render() {
         return (
             <div className='ui container' style={{marginTop: '1em'}}>
+                <div>
+                    <h1>Room</h1>
+                    <nav>
+                        <ul>
+                        <li>
+                            <Link to="/">Home</Link>
+                        </li>
+                        <li>
+                            <Link to="/UserPage">User</Link>
+                        </li>
+                        <li>
+                            <Link to="/login">Login</Link>
+                        </li>
+                        <li>
+                            <Link to="/signup">Signup</Link>
+                        </li>
+                        <li>
+                            <Link to="/room">Room</Link>
+                        </li>
+                        </ul>
+                    </nav>
+                </div>
                 <SearchBar handleFormSubmit={this.handleSubmit}/>
                 <div className='ui grid'>
                     <div className="ui row">

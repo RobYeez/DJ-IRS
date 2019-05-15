@@ -1,6 +1,6 @@
 import React from 'react'
 //add imports to other places?
-import {Link} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 //Landing page
 class HomePage extends React.Component {
@@ -11,17 +11,20 @@ class HomePage extends React.Component {
         <nav>
             <ul>
             <li>
-                <Link to="/">IndexHome</Link>
-            </li>
-            <li>
-                <Link to="/UserPage">IndexUser</Link>
-            </li>
-            <li>
-                <Link to="/login">IndexLogin</Link>
-            </li>
-            <li>
-                <Link to="/room">Room</Link>
-            </li>
+                  <Link to="/">Home</Link>
+              </li>
+              <li>
+                  <Link to="/UserPage">User</Link>
+              </li>
+              <li>
+                  <Link to="/login">Login</Link>
+              </li>
+              <li>
+                  <Link to="/signup">Signup</Link>
+              </li>
+              <li>
+                  <Link to="/room">Room</Link>
+              </li>
             </ul>
         </nav>
       </div>

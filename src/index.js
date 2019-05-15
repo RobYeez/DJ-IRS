@@ -11,6 +11,8 @@ import UserPage from './routes/UserPage';
 import Room from './routes/Room';
 import NotFound from './routes/notfound';
 
+
+
 //Keep it simple by just implementing where to route
 const routing = (
     <Router>
@@ -32,3 +34,6 @@ ReactDOM.render(routing, document.getElementById('root'));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+
+
