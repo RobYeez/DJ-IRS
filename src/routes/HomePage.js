@@ -6,8 +6,8 @@ import firebase from "../firebase.js";
 
 //Landing page
 export default class HomePage extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: "",
       password: "",
@@ -48,10 +48,13 @@ export default class HomePage extends React.Component {
                   <Link to="/">Home</Link>
               </li>
               <li>
-                  <Link to="/UserPage">User</Link>
+                  <Link to="/login">Login</Link>
               </li>
               <li>
-                  <Link to="/room">Room</Link>
+                  <Link to="/signup">Signup</Link>
+              </li>
+              <li>
+                  <Link to="/UserPage">User</Link>
               </li>
             </ul>
         </nav>
@@ -65,7 +68,7 @@ export default class HomePage extends React.Component {
         <h1>Home</h1>
         <nav>
             <ul>
-            <li>
+              <li>
                   <Link to="/">Home</Link>
               </li>
               <li>
@@ -73,6 +76,9 @@ export default class HomePage extends React.Component {
               </li>
               <li>
                   <Link to="/signup">Signup</Link>
+              </li>
+              <li>
+                  <Link to="/UserPage">User</Link>
               </li>
             </ul>
         </nav>

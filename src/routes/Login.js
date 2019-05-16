@@ -1,7 +1,7 @@
 import React from 'react';
 // import logo from './logo.svg';
 // import '../StyleSheets/SignUp.css';
-import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
+import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
 import {Login, Logout} from "../UserFunctions.js"
 import firebase from "../firebase.js";
 
@@ -9,8 +9,8 @@ import firebase from "../firebase.js";
 
 
 export default class LogIn extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: "",
       password: "",
@@ -32,26 +32,17 @@ export default class LogIn extends React.Component {
         });
     }
 
-    handleLogin(event) {
+    handleLogin = async event => {
     
-        Login(this.state.email, this.state.password);
-        
-        //alert("A login was submitted: " + this.state.email + ", " + this.state.password);
-        
-        this.setState({
-          email: "",
-          password: "",
-        });
-        
-        
-        event.preventDefault();
-        //this.setState(this.state);
+        await Login(this.state.email, this.state.password);
+        //this.props.userHasAuthenticated(true);
+        this.props.history.push("/");
     }
 
     LoggedInPage() {
         return (
             <div>
-                <h1>Log In Here</h1>
+                <h1>Log In</h1>
                 <nav>
                     <ul>
                     <li>
@@ -75,7 +66,7 @@ export default class LogIn extends React.Component {
     LoggedOutPage() {
         return (
             <div>
-                <h1>Log In Here</h1>
+                <h1>Log In</h1>
                 <nav>
                     <ul>
                     <li>

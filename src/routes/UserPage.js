@@ -1,14 +1,14 @@
 import React from 'react';
 // import '../StyleSheets/HomePage.css';
-import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
+import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
 import firebase from "../firebase.js";
 import {Logout} from "../UserFunctions.js";
 
 
 
 export default class UserPage extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       firstname: "",
       lastname: "",
@@ -33,13 +33,11 @@ export default class UserPage extends React.Component {
     });
   }
 
-  handleLogout(event) {
+  handleLogout = async event => {
     
-    Logout();
-    
-    
-    event.preventDefault();
-    //this.setState(this.state);
+    await Logout();
+    //this.userHasAuthenticated(false);
+    this.props.history.push("/login");
   }
 
 

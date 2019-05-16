@@ -9,8 +9,8 @@ import firebase from "../firebase.js";
 
 
 export default class SignUp extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       firstname: "",
       lastname: "",
@@ -37,7 +37,7 @@ export default class SignUp extends React.Component {
     
 
     
-    CreateUser( this.state.firstname, this.state.lastname, this.state.email, this.state.password)
+    CreateUser( this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.props)
 
     //alert("A sign up was submitted: " + this.state.firstname + ", " + this.state.lastname + ", " + this.state.email + ", " + this.state.password);
     
@@ -58,14 +58,14 @@ export default class SignUp extends React.Component {
   LoggedInPage() {
     return (
       <div>
-        <h1>Sign Up Here</h1>
+        <h1>Sign Up</h1>
         <nav>
             <ul>
-              <li>
-                <Link to="/">Home</Link>
+            <li>
+                  <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/UserPage">User</Link>
+                  <Link to="/UserPage">User</Link>
               </li>
               <li>
                 <Link to="/room">Room</Link>
@@ -82,18 +82,18 @@ export default class SignUp extends React.Component {
 LoggedOutPage() {
   return (
     <div>
-      <h1>Sign Up Here</h1>
+      <h1>Sign Up</h1>
       <nav>
           <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/signup">Signup</Link>
-            </li>
+              <li>
+                  <Link to="/">Home</Link>
+              </li>
+              <li>
+                  <Link to="/login">Login</Link>
+              </li>
+              <li>
+                  <Link to="/signup">Signup</Link>
+              </li>
           </ul>
       </nav>
       <div>
