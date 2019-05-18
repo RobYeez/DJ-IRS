@@ -1,6 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
+***Install firebase and bootstrap into your project ***
+npm install --save-dev react-bootstrap bootstrap
+npm install --save-dev -g firebase
 
 In the project directory, you can run:
 
