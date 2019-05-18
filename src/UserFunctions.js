@@ -1,4 +1,5 @@
 import firebase from "./firebase.js";
+//require('firebase/<PACKAGE>');
 //import { database } from "firebase";
 
 var db = firebase.firestore();

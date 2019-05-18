@@ -1,10 +1,12 @@
 import React from 'react';
 // import '../StyleSheets/HomePage.css';
 import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
-import firebase from "../firebase.js";
 import {Logout, GetUserData, GetUser} from "../UserFunctions.js";
 import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
+import {Form} from 'react-bootstrap'
+import {Button} from 'react-bootstrap'
+import {Container} from 'react-bootstrap'
 
 export default class UserPage extends React.Component {
   constructor(props) {
@@ -72,14 +74,19 @@ export default class UserPage extends React.Component {
     return (
       <div>
         <Navbarin />
-        <h1>User Page</h1>
         <div id="loggedInDiv">
+        <br/>
+        <Container>
+            <h1>User Page</h1>
+            <br/>
+            
             <div>
-              Hello user!
+              Hello {this.state.User_Firstname}!
             </div>
             <div>
-              <button name="button" onClick={this.handleLogout}>Logout</button>
+              <Button name="button" onClick={this.handleLogout}>Logout</Button>
             </div>
+        </Container>
         </div>
       </div>
     );
@@ -88,11 +95,12 @@ export default class UserPage extends React.Component {
   LoggedOutPage() {
     return (
       <div>
-        <Navbarout />
-        <div id="notLoggedInDiv">
-            <div>
-              You are not logged in!
-            </div>
+        <Navbarin />
+        <div id="loggedOutDiv">
+          <br/>
+          <Container>
+              
+          </Container>
         </div>
       </div>
     );

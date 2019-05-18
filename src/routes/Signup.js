@@ -6,7 +6,6 @@ import {CreateUser, GetUserData, GetUser} from "../UserFunctions.js"
 import {Form} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
 import {Container} from 'react-bootstrap'
-import firebase from "../firebase.js";
 import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
 
@@ -75,12 +74,12 @@ export default class SignUp extends React.Component {
 
     //alert("A sign up was submitted: " + this.state.firstname + ", " + this.state.lastname + ", " + this.state.email + ", " + this.state.password);
     
-    this.setState({
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-    });
+    // this.setState({
+    //   firstname: "",
+    //   lastname: "",
+    //   email: "",
+    //   password: "",
+    // });
 
     event.preventDefault();
     
@@ -145,7 +144,7 @@ LoggedOutPage() {
 
 
 render() {
-  if (this.User) {
+  if (this.state.User) {
   // User is signed in.
       return this.LoggedInPage();
   } else {

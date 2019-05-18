@@ -65,7 +65,11 @@ export default class HomePage extends React.Component {
     return (
       <div>
         <Navbarin />
-
+        <br />
+        <div align='center'><h1>DJ-IRS</h1></div>
+        <div align='center'><h4>Find new music. Make new friends.</h4></div>
+        <br />
+        <div align='center'><img src={homebkgrnd} width='500' height='300'/></div>
       </div>
     );
   }

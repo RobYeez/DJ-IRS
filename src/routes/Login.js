@@ -6,7 +6,6 @@ import {Login, GetUserData, GetUser} from "../UserFunctions.js"
 import {Form} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
 import {Container} from 'react-bootstrap'
-import firebase from "../firebase.js";
 import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
 
@@ -14,7 +13,7 @@ export default class LogIn extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-          User: null,
+        User: null,
           User_Loaded: false,
           User_Firstname: "",
           User_Lastname: "",
@@ -53,7 +52,7 @@ export default class LogIn extends React.Component {
             GetUserData(this);
             this.forceUpdate();
           }
-          console.log(this.state.User);
+          console.log(user);
         }
   
       handleChange(event) {
@@ -65,10 +64,10 @@ export default class LogIn extends React.Component {
           });
       }
   
-      handleLogin() {
+      handleLogin(event) {
       
           Login(this.state.email, this.state.password, this.props);
-          
+          event.preventDefault();
       }
 
     LoggedInPage() {

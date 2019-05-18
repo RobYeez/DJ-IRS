@@ -5,6 +5,9 @@ import VideoList from '../searchFunction/VideoList';
 import VideoDetail from '../searchFunction/VideoDetail';
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
 import {GetUserData, GetUser} from "../UserFunctions.js"
+import Navbarin from '../components/Navbarin.js';
+import Navbarout from '../components/Navbarout.js';
+import {Container} from 'react-bootstrap'
 
 export default class Room extends React.Component {
     constructor(props) {
@@ -83,22 +86,13 @@ export default class Room extends React.Component {
 
       LoggedInPage() {
         return (
-            <div className='ui container' style={{marginTop: '1em'}}>
+          <div>
+            <Navbarin />
+            <div id="loggedOutDiv">
+              <br/>
+              <Container>
                 <div>
                     <h1>Room</h1>
-                    <nav>
-                        <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/UserPage">User</Link>
-                        </li>
-                        <li>
-                            <Link to="/room">Room</Link>
-                        </li>
-                        </ul>
-                    </nav>
                 </div>
                 <SearchBar handleFormSubmit={this.handleSubmit}/>
                 <div className='ui grid'>
@@ -111,47 +105,28 @@ export default class Room extends React.Component {
                         </div>
                     </div>
                 </div>
+              </Container>
             </div>
+          </div>
         );
     }
 
     LoggedOutPage() {
         return (
-            <div className='ui container' style={{marginTop: '1em'}}>
-                <div>
-                    <h1>Room</h1>
-                    <nav>
-                        <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/UserPage">User</Link>
-                        </li>
-                        <li>
-                            <Link to="/room">Room</Link>
-                        </li>
-                        </ul>
-                    </nav>
-                </div>
-                <SearchBar handleFormSubmit={this.handleSubmit}/>
-                <div className='ui grid'>
-                    <div className="ui row">
-                        <div className="eleven wide column">
-                            <VideoDetail video={this.state.selectedVideo}/>
-                        </div>
-                        <div className="five wide column">
-                            <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos}/>
-                        </div>
-                    </div>
-                </div>
+          <div>
+            <Navbarin />
+            <div id="loggedOutDiv">
+              <br/>
+              <Container>
+              </Container>
             </div>
+          </div>
         );
       }
 
 
     render() {
-        if (this.User) {
+        if (this.state.User) {
         // User is signed in.
             return this.LoggedInPage();
         } else {
