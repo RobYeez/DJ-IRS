@@ -2,7 +2,7 @@ import React from 'react';
 // import logo from './logo.svg';
 // import '../StyleSheets/SignUp.css';
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
-import {CreateUser} from "../UserFunctions.js"
+import {CreateUser, GetUserData, GetUser} from "../UserFunctions.js"
 import {Form} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
 import {Container} from 'react-bootstrap'
@@ -14,6 +14,13 @@ export default class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      User: null,
+      User_Loaded: false,
+      User_Firstname: "",
+      User_Lastname: "",
+      User_Email: "",
+      User_Friends: [],
+
       firstname: "",
       lastname: "",
       email: "",
@@ -24,7 +31,32 @@ export default class SignUp extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.LoggedInPage = this.LoggedInPage.bind(this);
     this.LoggedOutPage = this.LoggedOutPage.bind(this);
+    this.UpdateUserData = this.UpdateUserData.bind(this);
   }
+
+ 
+  componentDidMount() {
+    
+    this.timerID = setInterval(
+      () => this.UpdateUserData(),
+      100
+    ); //updates every 100 ms
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+
+  UpdateUserData() {
+    var user = GetUser();
+
+    if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
+      GetUserData(this);
+      this.forceUpdate();
+    }
+  }
+
 
   handleChange(event) {
     const target = event.target;
@@ -51,7 +83,12 @@ export default class SignUp extends React.Component {
     });
 
     event.preventDefault();
+    
   }
+
+
+
+
 
   LoggedInPage() {
     return (
@@ -106,18 +143,17 @@ LoggedOutPage() {
   );
 }
 
-  render() {
-    var user = firebase.auth().currentUser;
 
-        if (user) {
-        // User is signed in.
-            return this.LoggedInPage();
-        } else {
-        // No user is signed in.  
-            return this.LoggedOutPage();
-        }
-        
+render() {
+  if (this.User) {
+  // User is signed in.
+      return this.LoggedInPage();
+  } else {
+  // No user is signed in.  
+      return this.LoggedOutPage();
   }
+  
+}
 
  
   

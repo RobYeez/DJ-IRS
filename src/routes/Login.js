@@ -2,7 +2,7 @@ import React from 'react';
 // import logo from './logo.svg';
 // import '../StyleSheets/SignUp.css';
 import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
-import {Login, Logout} from "../UserFunctions.js"
+import {Login, GetUserData, GetUser} from "../UserFunctions.js"
 import {Form} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
 import {Container} from 'react-bootstrap'
@@ -11,35 +11,65 @@ import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
 
 export default class LogIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.LoggedInPage = this.LoggedInPage.bind(this);
-    this.LoggedOutPage = this.LoggedOutPage.bind(this);
-
-    }   
-
-    handleChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-        this.setState({
-          [name]: value
-        });
-    }
-
-    handleLogin = async event => {
-    
-        await Login(this.state.email, this.state.password);
-        //this.props.userHasAuthenticated(true);
-        this.props.history.push("/");
-    }
+    constructor(props) {
+      super(props);
+      this.state = {
+          User: null,
+          User_Loaded: false,
+          User_Firstname: "",
+          User_Lastname: "",
+          User_Email: "",
+          User_Friends: [],
+          
+          email: "",
+          password: "",
+      };
+  
+      this.handleChange = this.handleChange.bind(this);
+      this.handleLogin = this.handleLogin.bind(this);
+      this.LoggedInPage = this.LoggedInPage.bind(this);
+      this.LoggedOutPage = this.LoggedOutPage.bind(this);
+      this.UpdateUserData = this.UpdateUserData.bind(this);
+  
+      } 
+  
+      componentDidMount() {
+      
+          this.timerID = setInterval(
+            () => this.UpdateUserData(),
+            100
+          ); //updates every 100 ms
+        }
+      
+        componentWillUnmount() {
+          clearInterval(this.timerID);
+        }
+      
+      
+        UpdateUserData() {
+          var user = GetUser();
+      
+          if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
+            GetUserData(this);
+            this.forceUpdate();
+          }
+          console.log(this.state.User);
+        }
+  
+      handleChange(event) {
+          const target = event.target;
+          const value = target.value;
+          const name = target.name;
+          this.setState({
+            [name]: value
+          });
+      }
+  
+      handleLogin() {
+      
+          Login(this.state.email, this.state.password, this.props);
+          
+      }
 
     LoggedInPage() {
         return (
@@ -60,7 +90,7 @@ export default class LogIn extends React.Component {
                 <div id="LoggedOutDiv">
                 <br/>
                 <Container>
-                    <h1>Create an Account</h1>
+                    <h1>Log In</h1>
                     <br/>
                     <Form className="login-form">
                     <Form.Group controlId="email">
@@ -74,7 +104,7 @@ export default class LogIn extends React.Component {
                     </Form.Group>
                     
                     <Button variant="primary" type="submit" name="button" onClick={this.handleLogin}>
-                    Login To Account
+                    Login
                     </Button>
                     </Form>
                 </Container>
@@ -84,9 +114,7 @@ export default class LogIn extends React.Component {
     }
 
     render() {
-        var user = firebase.auth().currentUser;
-
-        if (user) {
+        if (this.state.User) {
         // User is signed in.
             return this.LoggedInPage();
         } else {

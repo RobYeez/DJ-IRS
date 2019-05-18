@@ -2,7 +2,7 @@ import React from 'react';
 // import '../StyleSheets/HomePage.css';
 import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
 import firebase from "../firebase.js";
-import {Logout} from "../UserFunctions.js";
+import {Logout, GetUserData, GetUser} from "../UserFunctions.js";
 import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
 
@@ -10,9 +10,12 @@ export default class UserPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: "",
-      lastname: "",
-      email: "",
+      User: null,
+      User_Loaded: false,
+      User_Firstname: "",
+      User_Lastname: "",
+      User_Email: "",
+      User_Friends: [],
     };
 
     
@@ -21,8 +24,33 @@ export default class UserPage extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.LoggedInPage = this.LoggedInPage.bind(this);
     this.LoggedOutPage = this.LoggedOutPage.bind(this);
+    this.UpdateUserData = this.UpdateUserData.bind(this);
 
   }
+
+  componentDidMount() {
+    
+    this.timerID = setInterval(
+      () => this.UpdateUserData(),
+      100
+    ); //updates every 100 ms
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+
+  UpdateUserData() {
+    var user = GetUser();
+
+    if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
+      GetUserData(this);
+      this.forceUpdate();
+    }
+  }
+
+
 
   handleChange(event) {
     const target = event.target;
@@ -33,11 +61,9 @@ export default class UserPage extends React.Component {
     });
   }
 
-  handleLogout = async event => {
+  handleLogout(){
     
-    await Logout();
-    //this.userHasAuthenticated(false);
-    this.props.history.push("/login");
+    Logout(this.props);
   }
 
 
@@ -45,8 +71,8 @@ export default class UserPage extends React.Component {
   LoggedInPage() {
     return (
       <div>
-        <h1>User Page</h1>
         <Navbarin />
+        <h1>User Page</h1>
         <div id="loggedInDiv">
             <div>
               Hello user!
@@ -62,7 +88,6 @@ export default class UserPage extends React.Component {
   LoggedOutPage() {
     return (
       <div>
-        <h1>User Page</h1>
         <Navbarout />
         <div id="notLoggedInDiv">
             <div>
@@ -72,15 +97,15 @@ export default class UserPage extends React.Component {
       </div>
     );
   }
-    render() {
-      var user = firebase.auth().currentUser;
-
-      if (user) {
-      // User is signed in.
-          return this.LoggedInPage();
-      } else {
-      // No user is signed in.  
-          return this.LoggedOutPage();
-      }
+  
+  render() {
+      
+    if (this.state.User) {
+    // User is signed in.
+        return this.LoggedInPage();
+    } else {
+    // No user is signed in.  
+        return this.LoggedOutPage();
     }
+  }
 }

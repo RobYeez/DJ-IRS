@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import {Logout} from "../UserFunctions.js"
+import {GetUserData, GetUser} from "../UserFunctions.js"
 import homebkgrnd from '../images/homebkgrnd.jpg';
 import firebase from "../firebase.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,16 +12,45 @@ export default class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      User: null,
+      User_Loaded: false,
+      User_Firstname: "",
+      User_Lastname: "",
+      User_Email: "",
+      User_Friends: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
     this.LoggedInPage = this.LoggedInPage.bind(this);
     this.LoggedOutPage = this.LoggedOutPage.bind(this);
+    this.UpdateUserData = this.UpdateUserData.bind(this);
 
   }   
+
+ 
+  componentDidMount() {
+    
+    this.timerID = setInterval(
+      () => this.UpdateUserData(),
+      100
+    ); //updates every 100 ms
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+
+  UpdateUserData() {
+    var user = GetUser();
+
+    if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
+      GetUserData(this);
+      this.forceUpdate();
+    }
+    //console.log(this.state);
+  }
+
 
   handleChange(event) {
     const target = event.target;
@@ -30,14 +59,6 @@ export default class HomePage extends React.Component {
     this.setState({
       [name]: value
     });
-  }
-
-  
-  handleLogout(event) {
-    
-    Logout();
-
-    event.preventDefault();
   }
 
   LoggedInPage() {
@@ -62,15 +83,15 @@ export default class HomePage extends React.Component {
     );
   }
 
+  
   render() {
-    var user = firebase.auth().currentUser;
-
-        if (user) {
-        // User is signed in.
-            return this.LoggedInPage();
-        } else {
-        // No user is signed in.  
-            return this.LoggedOutPage();
-        }
-  }
+    if (this.state.User) {
+    // User is signed in.
+        return this.LoggedInPage();
+    } else {
+    // No user is signed in.  
+        return this.LoggedOutPage();
+    }
+    
+  } 
 }
