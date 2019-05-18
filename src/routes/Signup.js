@@ -35,6 +35,7 @@ export default class SignUp extends React.Component {
 
  
   componentDidMount() {
+    //document.title = "DJ-IRS";
     
     this.timerID = setInterval(
       () => this.UpdateUserData(),
@@ -67,19 +68,27 @@ export default class SignUp extends React.Component {
   }
 
   handleSubmit(event) {
-    
-
-    
-    CreateUser( this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.props)
-
-    //alert("A sign up was submitted: " + this.state.firstname + ", " + this.state.lastname + ", " + this.state.email + ", " + this.state.password);
-    
-    // this.setState({
-    //   firstname: "",
-    //   lastname: "",
-    //   email: "",
-    //   password: "",
-    // });
+    //changed to look for all categories (previously ignores check for firstname/lastname)
+    if(this.state.firstname &&
+      this.state.lastname &&
+      this.state.email &&
+      this.state.password) {
+        CreateUser( this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.props)
+      }
+    else {
+      if (this.state.firstname == "") {
+        alert("Missing First Name");
+      }
+      else if (this.state.lastname == "") {
+        alert("Missing Last Name");
+      }
+      else if (this.state.email == "") {
+        alert("Missing Email");
+      }
+      else if (this.state.password == "") {
+        alert("Missing Password");
+      }
+    }
 
     event.preventDefault();
     

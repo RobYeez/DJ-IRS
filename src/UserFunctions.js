@@ -1,8 +1,88 @@
 import firebase from "./firebase.js";
-//require('firebase/<PACKAGE>');
-//import { database } from "firebase";
 
 var db = firebase.firestore();
+
+
+
+
+const messaging = firebase.messaging();
+// Add the public key generated from the console here.
+messaging.usePublicVapidKey("BFVj_nB5KUhUpQbA1EYDPVHZIhs2awPNuZhM54OBS7bHk6DqYEmG6FRJdTurTS3Jp59OGCyA4RYTEcTBf1Hf5gY");
+
+
+Notification.requestPermission().then(function(permission) {
+  if (permission === 'granted') {
+    console.log('Notification permission granted.');
+    // TODO(developer): Retrieve an Instance ID token for use with FCM.
+    // ...
+  } else {
+    console.log('Unable to get permission to notify.');
+  }
+});
+
+// Get Instance ID token. Initially this makes a network call, once retrieved
+// subsequent calls to getToken will return from cache.
+messaging.getToken().then(function(currentToken) {
+  if (currentToken) {
+    //console.log(currentToken);
+    SendTokenToServer(currentToken);
+    //updateUIForPushEnabled(currentToken);
+    
+  } else {
+    // Show permission request.
+    console.log('No Instance ID token available. Request permission to generate one.');
+    // Show permission UI.
+    //updateUIForPushPermissionRequired();
+    //setTokenSentToServer(false);
+  }
+}).catch(function(err) {
+  console.log('An error occurred while retrieving token. ', err);
+  //showToken('Error retrieving Instance ID token. ', err);
+  //setTokenSentToServer(false);
+});
+
+// Callback fired if Instance ID token is updated.
+messaging.onTokenRefresh(function() {
+  messaging.getToken().then(function(refreshedToken) {
+    console.log('Token refreshed.');
+    //console.log(refreshedToken);
+    SendTokenToServer(refreshedToken);
+    // Indicate that the new Instance ID token has not yet been sent to the
+    // app server.
+    //setTokenSentToServer(false);
+    // Send Instance ID token to app server.
+    // ...
+  }).catch(function(err) {
+    console.log('Unable to retrieve refreshed token ', err);
+    //showToken('Unable to retrieve refreshed token ', err);
+  });
+});
+
+
+
+function SendTokenToServer(token) {
+  var user = firebase.auth().currentUser;
+  if(user) {
+    console.log(token);
+    db.collection("users").doc(user.uid).set({
+      User_Token: token
+    });
+  }
+  
+}
+
+
+
+messaging.onMessage(function (payload) {
+  console.log("onMessage ", payload);
+});
+
+
+
+
+
+
+
 
 
 firebase.auth().onAuthStateChanged(function(USER) {
@@ -18,10 +98,18 @@ firebase.auth().onAuthStateChanged(function(USER) {
     }
 });
 
+
+
 export function GetUser() {
   var user = firebase.auth().currentUser;
   return user;
 }
+
+
+
+
+
+
 
 export function GetUserData(currentComponent) {
   var user = firebase.auth().currentUser;
@@ -65,6 +153,11 @@ export function GetUserData(currentComponent) {
 
 }
 
+
+
+
+
+
 export function CreateUser(firstname, lastname, email, password, props) {
         firebase.auth().createUserWithEmailAndPassword(email, password).then(cred => {
           return db.collection("users").doc(cred.user.uid).set({
@@ -89,6 +182,14 @@ export function CreateUser(firstname, lastname, email, password, props) {
           });
 }
 
+
+
+
+
+
+
+
+
 export function Login(email, password, props) {
     firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
       //sign in successful
@@ -105,6 +206,16 @@ export function Login(email, password, props) {
       });
       
 }
+
+
+
+
+
+
+
+
+
+
 
 
 export function Logout(props) {

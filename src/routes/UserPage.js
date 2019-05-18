@@ -18,6 +18,8 @@ export default class UserPage extends React.Component {
       User_Lastname: "",
       User_Email: "",
       User_Friends: [],
+
+      addFriendText: "",
     };
 
     
@@ -31,6 +33,7 @@ export default class UserPage extends React.Component {
   }
 
   componentDidMount() {
+    //document.title = "DJ-IRS";
     
     this.timerID = setInterval(
       () => this.UpdateUserData(),
@@ -52,7 +55,9 @@ export default class UserPage extends React.Component {
     }
   }
 
-
+  handleAdd(event) {
+    
+  }
 
   handleChange(event) {
     const target = event.target;
@@ -79,10 +84,19 @@ export default class UserPage extends React.Component {
         <Container>
             <h1>User Page</h1>
             <br/>
-            
             <div>
               Hello {this.state.User_Firstname}!
             </div>
+            <br/>
+            <Form.Group controlId="addfriend">
+                <Form.Label>Add Friend</Form.Label>
+                <Form.Control name="addfriendtext" type="text" value={this.state.addFriendText} onChange={this.handleChange} placeholder="Friend..." />
+                <div>
+                  <Button name="addbtn" onClick={this.handleAdd}>Add</Button>
+                </div>
+            </Form.Group>
+            
+            <br/>
             <div>
               <Button name="button" onClick={this.handleLogout}>Logout</Button>
             </div>

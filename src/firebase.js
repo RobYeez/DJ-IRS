@@ -2,11 +2,6 @@
 import firebase from "firebase"
 
 
-// PASTE FIREBASE CODE HERE (before "export default firebase;")
-
-// It should look similar to the following:
-
-
 // Initialize Firebase
 
 var config = {

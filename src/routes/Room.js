@@ -36,6 +36,7 @@ export default class Room extends React.Component {
     
 
       componentDidMount() {
+        //document.title = "DJ-IRS";
     
         this.timerID = setInterval(
           () => this.UpdateUserData(),

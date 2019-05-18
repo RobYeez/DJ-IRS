@@ -33,6 +33,7 @@ export default class LogIn extends React.Component {
       } 
   
       componentDidMount() {
+        //document.title = "DJ-IRS";
       
           this.timerID = setInterval(
             () => this.UpdateUserData(),
@@ -48,11 +49,11 @@ export default class LogIn extends React.Component {
         UpdateUserData() {
           var user = GetUser();
       
-          if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
+          //if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
             GetUserData(this);
             this.forceUpdate();
-          }
-          console.log(user);
+          //}
+          //console.log(user);
         }
   
       handleChange(event) {

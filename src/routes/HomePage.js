@@ -19,6 +19,7 @@ export default class HomePage extends React.Component {
       User_Email: "",
       User_Friends: [],
     };
+    
 
     this.handleChange = this.handleChange.bind(this);
     this.LoggedInPage = this.LoggedInPage.bind(this);
@@ -29,7 +30,7 @@ export default class HomePage extends React.Component {
 
  
   componentDidMount() {
-    
+    //document.title = "DJ-IRS";
     this.timerID = setInterval(
       () => this.UpdateUserData(),
       100
