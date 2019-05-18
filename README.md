@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 ***Install firebase and bootstrap into your project ***
-npm install --save-dev react-bootstrap bootstrap
+npm install --save-dev react-bootstrap bootstrap AND
 npm install --save-dev -g firebase
 
 In the project directory, you can run:
