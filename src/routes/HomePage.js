@@ -1,8 +1,11 @@
-import React from 'react'
-//add imports to other places?
+import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import {Logout} from "../UserFunctions.js"
+import homebkgrnd from '../images/homebkgrnd.jpg';
 import firebase from "../firebase.js";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbarin from '../components/Navbarin.js';
+import Navbarout from '../components/Navbarout.js';
 
 //Landing page
 export default class HomePage extends React.Component {
@@ -19,7 +22,6 @@ export default class HomePage extends React.Component {
     this.LoggedOutPage = this.LoggedOutPage.bind(this);
 
   }   
-
 
   handleChange(event) {
     const target = event.target;
@@ -41,23 +43,8 @@ export default class HomePage extends React.Component {
   LoggedInPage() {
     return (
       <div>
-        <h1>Home</h1>
-        <nav>
-            <ul>
-            <li>
-                  <Link to="/">Home</Link>
-              </li>
-              <li>
-                  <Link to="/login">Login</Link>
-              </li>
-              <li>
-                  <Link to="/signup">Signup</Link>
-              </li>
-              <li>
-                  <Link to="/UserPage">User</Link>
-              </li>
-            </ul>
-        </nav>
+        <Navbarin />
+
       </div>
     );
   }
@@ -65,23 +52,12 @@ export default class HomePage extends React.Component {
   LoggedOutPage() {
     return (
       <div>
-        <h1>Home</h1>
-        <nav>
-            <ul>
-              <li>
-                  <Link to="/">Home</Link>
-              </li>
-              <li>
-                  <Link to="/login">Login</Link>
-              </li>
-              <li>
-                  <Link to="/signup">Signup</Link>
-              </li>
-              <li>
-                  <Link to="/UserPage">User</Link>
-              </li>
-            </ul>
-        </nav>
+        <Navbarout />
+        <br />
+        <div align='center'><h1>DJ-IRS</h1></div>
+        <div align='center'><h4>Find new music. Make new friends.</h4></div>
+        <br />
+        <div align='center'><img src={homebkgrnd} width='500' height='300'/></div>
       </div>
     );
   }
@@ -96,6 +72,5 @@ export default class HomePage extends React.Component {
         // No user is signed in.  
             return this.LoggedOutPage();
         }
-        
   }
 }

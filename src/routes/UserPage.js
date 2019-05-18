@@ -3,8 +3,8 @@ import React from 'react';
 import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
 import firebase from "../firebase.js";
 import {Logout} from "../UserFunctions.js";
-
-
+import Navbarin from '../components/Navbarin.js';
+import Navbarout from '../components/Navbarout.js';
 
 export default class UserPage extends React.Component {
   constructor(props) {
@@ -46,19 +46,7 @@ export default class UserPage extends React.Component {
     return (
       <div>
         <h1>User Page</h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/UserPage">User</Link>
-            </li>
-            <li>
-              <Link to="/room">Room</Link>
-            </li>
-          </ul>
-        </nav>
+        <Navbarin />
         <div id="loggedInDiv">
             <div>
               Hello user!
@@ -75,19 +63,7 @@ export default class UserPage extends React.Component {
     return (
       <div>
         <h1>User Page</h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/signup">Signup</Link>
-            </li>
-          </ul>
-        </nav>
+        <Navbarout />
         <div id="notLoggedInDiv">
             <div>
               You are not logged in!

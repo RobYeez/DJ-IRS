@@ -3,10 +3,12 @@ import React from 'react';
 // import '../StyleSheets/SignUp.css';
 import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
 import {Login, Logout} from "../UserFunctions.js"
+import {Form} from 'react-bootstrap'
+import {Button} from 'react-bootstrap'
+import {Container} from 'react-bootstrap'
 import firebase from "../firebase.js";
-
-
-
+import Navbarin from '../components/Navbarin.js';
+import Navbarout from '../components/Navbarout.js';
 
 export default class LogIn extends React.Component {
   constructor(props) {
@@ -42,20 +44,7 @@ export default class LogIn extends React.Component {
     LoggedInPage() {
         return (
             <div>
-                <h1>Log In</h1>
-                <nav>
-                    <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/UserPage">User</Link>
-                    </li>
-                    <li>
-                        <Link to="/room">Room</Link>
-                    </li>
-                    </ul>
-                </nav>
+                <Navbarin />
                 <div>
                     You are already logged in!
                 </div>
@@ -66,30 +55,29 @@ export default class LogIn extends React.Component {
     LoggedOutPage() {
         return (
             <div>
-                <h1>Log In</h1>
-                <nav>
-                    <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/login">Login</Link>
-                    </li>
-                    <li>
-                        <Link to="/signup">Signup</Link>
-                    </li>
-                    </ul>
-                </nav>
+                <Navbarout />
+
                 <div id="LoggedOutDiv">
-                    <div>
-                        <input name="email" type="text" value={this.state.email} onChange={this.handleChange} placeholder="Email..."/>
-                    </div>
-                    <div>
-                        <input name="password" type="text"  value={this.state.password} onChange={this.handleChange} placeholder="Password..."/>
-                    </div>
-                    <div>
-                        <button name="button" onClick={this.handleLogin}>Login To Account</button>
-                    </div>
+                <br/>
+                <Container>
+                    <h1>Create an Account</h1>
+                    <br/>
+                    <Form className="login-form">
+                    <Form.Group controlId="email">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control name="email" type="text" value={this.state.email} onChange={this.handleChange} placeholder="Email..." />
+                    </Form.Group>
+                    
+                    <Form.Group controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control name="password" type="text" value={this.state.password} onChange={this.handleChange} placeholder="Password..." />
+                    </Form.Group>
+                    
+                    <Button variant="primary" type="submit" name="button" onClick={this.handleLogin}>
+                    Login To Account
+                    </Button>
+                    </Form>
+                </Container>
                 </div>
             </div>
         );
