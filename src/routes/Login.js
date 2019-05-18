@@ -100,7 +100,7 @@ export default class LogIn extends React.Component {
                     
                     <Form.Group controlId="password">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control name="password" type="text" value={this.state.password} onChange={this.handleChange} placeholder="Password..." />
+                    <Form.Control name="password" type="password" value={this.state.password} onChange={this.handleChange} placeholder="Password..." />
                     </Form.Group>
                     
                     <Button variant="primary" type="submit" name="button" onClick={this.handleLogin}>

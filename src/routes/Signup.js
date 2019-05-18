@@ -90,13 +90,20 @@ export default class SignUp extends React.Component {
       }
     }
 
+    // CreateUser( this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.props)
+
+    // alert("A sign up was submitted: " + this.state.firstname + ", " + this.state.lastname + ", " + this.state.email + ", " + this.state.password);
+    
+    // this.setState({
+    //   firstname: "",
+    //   lastname: "",
+    //   email: "",
+    //   password: "",
+    // });
+
     event.preventDefault();
     
   }
-
-
-
-
 
   LoggedInPage() {
     return (
@@ -121,29 +128,31 @@ LoggedOutPage() {
           <br/>
 
           <Form className="login-form">
+          
           <Form.Group controlId="firstname">
           <Form.Label>First Name</Form.Label>
-          <Form.Control name="firstname" type="text" value={this.state.firstname} onChange={this.handleChange} placeholder="Enter first name" />
+          <Form.Control required name="firstname" type="text" value={this.state.firstname} onChange={this.handleChange} placeholder="Enter first name" />
           </Form.Group>
 
           <Form.Group controlId="lastname">
-          <Form.Label>Enter last name</Form.Label>
-          <Form.Control name="lastname" type="text" value={this.state.lastname} onChange={this.handleChange} placeholder="Enter last name" />
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control required name="lastname" type="text" value={this.state.lastname} onChange={this.handleChange} placeholder="Enter last name" />
           </Form.Group>
 
           <Form.Group controlId="email">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control name="email" type="text" value={this.state.email} onChange={this.handleChange} placeholder="Enter email" />
+          <Form.Label>Email</Form.Label>
+          <Form.Control required name="email" type="text" value={this.state.email} onChange={this.handleChange} placeholder="Enter email" />
           </Form.Group>
           
           <Form.Group controlId="password">
           <Form.Label>Password</Form.Label>
-          <Form.Control name="password" type="text" value={this.state.password} onChange={this.handleChange} placeholder="Create password" />
+          <Form.Control required name="password" type="password" value={this.state.password} onChange={this.handleChange} placeholder="Create password" />
           </Form.Group>
           
           <Button variant="primary" type="submit" name="submit" onClick={this.handleSubmit}>
           Submit
           </Button>
+
           </Form>
         </Container>
       </div> 
@@ -156,15 +165,12 @@ render() {
   if (this.state.User) {
   // User is signed in.
       return this.LoggedInPage();
-  } else {
+  } 
+  else {
   // No user is signed in.  
       return this.LoggedOutPage();
-  }
-  
+  }  
 }
-
- 
-  
 
 }
 
