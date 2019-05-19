@@ -3,11 +3,13 @@ import SearchBar from '../searchFunction/Searchbar';
 import youtube from '../apis/youtube';
 import VideoList from '../searchFunction/VideoList';
 import VideoDetail from '../searchFunction/VideoDetail';
+import HistList from '../searchFunction/HistList';
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
 import {GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js"
 import Navbarin from '../components/Navbarin.js';
-import Navbarout from '../components/Navbarout.js';
 import {Container} from 'react-bootstrap'
+import {Row} from 'react-bootstrap'
+import {Col} from 'react-bootstrap'
 
 export default class Room extends React.Component {
     constructor(props) {
@@ -23,6 +25,7 @@ export default class Room extends React.Component {
             User_Notifications: [],
     
             videos: [],
+            watchHist: [],
             selectedVideo: null
         };
     
@@ -84,6 +87,19 @@ export default class Room extends React.Component {
 
     handleVideoSelect = (video) => {
         this.setState({selectedVideo: video})
+        var newArray = this.state.watchHist.slice()
+        for(var i=0; i < newArray.length; i++) {
+          if(video == newArray[i]) {
+            newArray.splice(i, 1)
+          }
+        }
+        if(newArray.length >= 5) {
+          newArray = newArray.slice(1);
+        }
+        newArray.push(video)
+        this.setState({
+          watchHist: newArray
+        })
     }
 
     
@@ -99,16 +115,22 @@ export default class Room extends React.Component {
                     <h1>Room</h1>
                 </div>
                 <SearchBar handleFormSubmit={this.handleSubmit}/>
-                <div className='ui grid'>
-                    <div className="ui row">
-                        <div className="eleven wide column">
-                            <VideoDetail video={this.state.selectedVideo}/>
-                        </div>
-                        <div className="five wide column">
-                            <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos}/>
-                        </div>
-                    </div>
-                </div>
+
+                    <Row>
+                        <Col>
+                          <VideoDetail video={this.state.selectedVideo}/>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                      <Col>
+                        <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos}/>
+                      </Col>
+                        <h4>Watch History</h4>
+                      <Col>
+                        <HistList handleVideoSelect={this.handleVideoSelect} watchHist={this.state.watchHist}/>
+                      </Col>
+                    </Row>
               </Container>
             </div>
           </div>
