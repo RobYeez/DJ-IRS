@@ -29,8 +29,6 @@ export default class Room extends React.Component {
             selectedVideo: null
         };
     
-        
-    
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.LoggedInPage = this.LoggedInPage.bind(this);
@@ -39,7 +37,6 @@ export default class Room extends React.Component {
     
       }
     
-
       componentDidMount() {
         //document.title = "DJ-IRS";
     
@@ -53,7 +50,6 @@ export default class Room extends React.Component {
         clearInterval(this.timerID);
       }
     
-    
       UpdateUserData() {
         var user = GetUser();
     
@@ -63,7 +59,6 @@ export default class Room extends React.Component {
           this.forceUpdate();
         }
       }
-
 
       handleChange(event) {
         const target = event.target;
@@ -89,7 +84,7 @@ export default class Room extends React.Component {
         this.setState({selectedVideo: video})
         var newArray = this.state.watchHist.slice()
         for(var i=0; i < newArray.length; i++) {
-          if(video == newArray[i]) {
+          if(video === newArray[i]) {
             newArray.splice(i, 1)
           }
         }
@@ -101,8 +96,6 @@ export default class Room extends React.Component {
           watchHist: newArray
         })
     }
-
-    
 
       LoggedInPage() {
         return (
