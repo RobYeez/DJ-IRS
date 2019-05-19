@@ -3,12 +3,9 @@ import firebase from "./firebase.js";
 var db = firebase.firestore();
 var token = "";
 
-
-
 const messaging = firebase.messaging();
 // Add the public key generated from the console here.
 messaging.usePublicVapidKey("BFVj_nB5KUhUpQbA1EYDPVHZIhs2awPNuZhM54OBS7bHk6DqYEmG6FRJdTurTS3Jp59OGCyA4RYTEcTBf1Hf5gY");
-
 
 Notification.requestPermission().then(function(permission) {
   if (permission === 'granted') {
@@ -18,7 +15,7 @@ Notification.requestPermission().then(function(permission) {
   } else {
     console.log('Unable to get permission to notify.');
   }
-});
+}); 
 
 // Get Instance ID token. Initially this makes a network call, once retrieved
 // subsequent calls to getToken will return from cache.
@@ -60,8 +57,6 @@ messaging.onTokenRefresh(function() {
   });
 });
 
-
-
 export function SendTokenToServer() {
   var user = firebase.auth().currentUser;
   if(user) {
@@ -72,19 +67,9 @@ export function SendTokenToServer() {
     }
 }
 
-
-
 messaging.onMessage(function (payload) {
   console.log("onMessage ", payload);
 });
-
-
-
-
-
-
-
-
 
 firebase.auth().onAuthStateChanged(function(USER) {
   var user = USER;
@@ -99,18 +84,10 @@ firebase.auth().onAuthStateChanged(function(USER) {
     }
 });
 
-
-
 export function GetUser() {
   var user = firebase.auth().currentUser;
   return user;
 }
-
-
-
-
-
-
 
 export function GetUserData(currentComponent) {
   var user = firebase.auth().currentUser;
@@ -158,11 +135,6 @@ export function GetUserData(currentComponent) {
 
 }
 
-
-
-
-
-
 export function CreateUser(firstname, lastname, email, password, props) {
         firebase.auth().createUserWithEmailAndPassword(email, password).then(cred => {
           return db.collection("users").doc(cred.user.uid).set({
@@ -189,14 +161,6 @@ export function CreateUser(firstname, lastname, email, password, props) {
           });
 }
 
-
-
-
-
-
-
-
-
 export function Login(email, password, props) {
     firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
       //sign in successful
@@ -214,17 +178,6 @@ export function Login(email, password, props) {
       
 }
 
-
-
-
-
-
-
-
-
-
-
-
 export function Logout(props) {
     
       firebase.auth().signOut().then(function() {
@@ -238,8 +191,34 @@ export function Logout(props) {
         var errorMessage = error.message;
         alert("Error Code: " + errorCode + "\n" + errorMessage);
       });
-      
-      
+            
 }
+export function AddFriend(addFriendText, props) {
+  var user = firebase.auth().currentUser;
+    var newInput = db.collection("users").doc(user.uid);
+    // docRef.get().then( function(doc) {
+        // const data = doc.data();
+  // var newInput = db.collection("users").doc(user.uid).push();
+  // // newInput.set({
+  // //   User_Friends: addFriendText
+  // // })
+  // //SET OVERIDES ENTIRE THING
+  // UPDATE OVERRIDES THAT SPECIFC SPOT
+  if(user) {
+    var docRef = db.collection("users").doc(user.uid);
+    docRef.get().then( function(doc) {
+      if(doc && doc.exists) {
+        //console.log(doc);
+        const data = doc.data();
+        //console.log(data);
+        newInput.update({
+          User_Friends: data.User_Friends + ", " + addFriendText
+        });      
+          // props.history.push("/userpage");
 
+      }
+    });
+  }
+  props.history.push("/userpage");
 
+}
