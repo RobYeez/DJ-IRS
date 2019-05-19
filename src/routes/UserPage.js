@@ -1,7 +1,7 @@
 import React from 'react';
 // import '../StyleSheets/HomePage.css';
 import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
-import {Logout, GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js";
+import {AddFriend, Logout, GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js";
 import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
 import {Form} from 'react-bootstrap'
@@ -24,13 +24,12 @@ export default class UserPage extends React.Component {
       addFriendText: "",
     };
 
-    
-
     this.handleChange = this.handleChange.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.LoggedInPage = this.LoggedInPage.bind(this);
     this.LoggedOutPage = this.LoggedOutPage.bind(this);
     this.UpdateUserData = this.UpdateUserData.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
 
   }
 
@@ -59,7 +58,7 @@ export default class UserPage extends React.Component {
   }
 
   handleAdd(event) {
-    
+    AddFriend(this.state.addFriendText, this.props);
   }
 
   handleChange(event) {
@@ -76,8 +75,6 @@ export default class UserPage extends React.Component {
     Logout(this.props);
   }
 
-
-
   LoggedInPage() {
     return (
       <div>
@@ -93,7 +90,7 @@ export default class UserPage extends React.Component {
             <br/>
             <Form.Group controlId="addfriend">
                 <Form.Label>Add Friend</Form.Label>
-                <Form.Control name="addfriendtext" type="text" value={this.state.addFriendText} onChange={this.handleChange} placeholder="Friend..." />
+                <Form.Control name="addFriendText" type="email" value={this.state.addFriendText} onChange={this.handleChange} placeholder="Friend..." />
                 <div>
                   <Button name="addbtn" onClick={this.handleAdd}>Add</Button>
                 </div>
