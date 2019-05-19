@@ -4,7 +4,7 @@ import youtube from '../apis/youtube';
 import VideoList from '../searchFunction/VideoList';
 import VideoDetail from '../searchFunction/VideoDetail';
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
-import {GetUserData, GetUser} from "../UserFunctions.js"
+import {GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js"
 import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
 import {Container} from 'react-bootstrap'
@@ -19,6 +19,8 @@ export default class Room extends React.Component {
             User_Lastname: "",
             User_Email: "",
             User_Friends: [],
+            User_Token: "",
+            User_Notifications: [],
     
             videos: [],
             selectedVideo: null
@@ -53,6 +55,7 @@ export default class Room extends React.Component {
         var user = GetUser();
     
         if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
+          SendTokenToServer();
           GetUserData(this);
           this.forceUpdate();
         }

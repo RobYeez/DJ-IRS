@@ -2,7 +2,7 @@ import React from 'react';
 // import logo from './logo.svg';
 // import '../StyleSheets/SignUp.css';
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
-import {CreateUser, GetUserData, GetUser} from "../UserFunctions.js"
+import {CreateUser, GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js"
 import {Form} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
 import {Container} from 'react-bootstrap'
@@ -19,6 +19,8 @@ export default class SignUp extends React.Component {
       User_Lastname: "",
       User_Email: "",
       User_Friends: [],
+      User_Token: "",
+      User_Notifications: [],
 
       firstname: "",
       lastname: "",
@@ -52,6 +54,7 @@ export default class SignUp extends React.Component {
     var user = GetUser();
 
     if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
+      SendTokenToServer();
       GetUserData(this);
       this.forceUpdate();
     }

@@ -2,7 +2,7 @@ import React from 'react';
 // import logo from './logo.svg';
 // import '../StyleSheets/SignUp.css';
 import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
-import {Login, GetUserData, GetUser} from "../UserFunctions.js"
+import {Login, GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js"
 import {Form} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
 import {Container} from 'react-bootstrap'
@@ -19,6 +19,8 @@ export default class LogIn extends React.Component {
           User_Lastname: "",
           User_Email: "",
           User_Friends: [],
+          User_Token: "",
+          User_Notifications: [],
           
           email: "",
           password: "",
@@ -49,11 +51,11 @@ export default class LogIn extends React.Component {
         UpdateUserData() {
           var user = GetUser();
       
-          //if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
+          if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
+            SendTokenToServer();
             GetUserData(this);
             this.forceUpdate();
-          //}
-          //console.log(user);
+          }
         }
   
       handleChange(event) {

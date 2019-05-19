@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import {GetUserData, GetUser} from "../UserFunctions.js"
+import {GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js"
 import homebkgrnd from '../images/homebkgrnd.jpg';
 import firebase from "../firebase.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,6 +18,8 @@ export default class HomePage extends React.Component {
       User_Lastname: "",
       User_Email: "",
       User_Friends: [],
+      User_Token: "",
+      User_Notifications: [],
     };
     
 
@@ -46,6 +48,7 @@ export default class HomePage extends React.Component {
     var user = GetUser();
 
     if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
+      SendTokenToServer();
       GetUserData(this);
       this.forceUpdate();
     }

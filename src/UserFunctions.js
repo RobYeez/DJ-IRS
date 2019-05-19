@@ -1,7 +1,7 @@
 import firebase from "./firebase.js";
 
 var db = firebase.firestore();
-
+var token = "";
 
 
 
@@ -24,8 +24,9 @@ Notification.requestPermission().then(function(permission) {
 // subsequent calls to getToken will return from cache.
 messaging.getToken().then(function(currentToken) {
   if (currentToken) {
-    //console.log(currentToken);
-    SendTokenToServer(currentToken);
+    console.log(currentToken);
+    token = currentToken;
+    //SendTokenToServer(currentToken);
     //updateUIForPushEnabled(currentToken);
     
   } else {
@@ -45,8 +46,9 @@ messaging.getToken().then(function(currentToken) {
 messaging.onTokenRefresh(function() {
   messaging.getToken().then(function(refreshedToken) {
     console.log('Token refreshed.');
+    token = refreshedToken;
     //console.log(refreshedToken);
-    SendTokenToServer(refreshedToken);
+    //SendTokenToServer(refreshedToken);
     // Indicate that the new Instance ID token has not yet been sent to the
     // app server.
     //setTokenSentToServer(false);
@@ -60,15 +62,14 @@ messaging.onTokenRefresh(function() {
 
 
 
-function SendTokenToServer(token) {
+export function SendTokenToServer() {
   var user = firebase.auth().currentUser;
   if(user) {
     console.log(token);
-    db.collection("users").doc(user.uid).set({
-      User_Token: token
-    });
-  }
-  
+    db.collection("users").doc(user.uid).update({
+            User_Token: token,
+          });
+    }
 }
 
 
@@ -128,6 +129,8 @@ export function GetUserData(currentComponent) {
             User_Lastname: data.User_Lastname,
             User_Email: data.User_Email,
             User_Friends: data.User_Friends,
+            User_Token: data.User_Token,
+            User_Notifications: data.User_Notifications,
           });
         }
       }).catch(function(error) {
@@ -146,7 +149,9 @@ export function GetUserData(currentComponent) {
         User_Firstname: "",
         User_Lastname: "",
         User_Email: "",
-        User_Friends: "",
+        User_Friends: [],
+        User_Token: "",
+        User_Notifications: [],
       });
     }
     
@@ -165,6 +170,8 @@ export function CreateUser(firstname, lastname, email, password, props) {
             User_Lastname: lastname,
             User_Email: email,
             User_Friends: [],
+            User_Token: "",
+            User_Notifications: [],
           });
           
         }).then( function() {

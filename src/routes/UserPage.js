@@ -1,7 +1,7 @@
 import React from 'react';
 // import '../StyleSheets/HomePage.css';
 import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
-import {Logout, GetUserData, GetUser} from "../UserFunctions.js";
+import {Logout, GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js";
 import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
 import {Form} from 'react-bootstrap'
@@ -18,6 +18,8 @@ export default class UserPage extends React.Component {
       User_Lastname: "",
       User_Email: "",
       User_Friends: [],
+      User_Token: "",
+      User_Notifications: [],
 
       addFriendText: "",
     };
@@ -50,6 +52,7 @@ export default class UserPage extends React.Component {
     var user = GetUser();
 
     if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
+      SendTokenToServer();
       GetUserData(this);
       this.forceUpdate();
     }
