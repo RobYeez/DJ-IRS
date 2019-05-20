@@ -235,6 +235,8 @@ export function AddFriend(addFriendText, myEmail) {
               User_Friends: firebase.firestore.FieldValue.arrayUnion(addFriendText)
           });
         }
+        alert("Friend has been added!");
+        window.location.reload();
   }).catch(function(error) {
         // An error happened.
         var errorCode = error.code;
