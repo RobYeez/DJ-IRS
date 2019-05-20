@@ -103,7 +103,7 @@ export default class UserPage extends React.Component {
             
             {/* Display Friends */}
             <div>
-            <Button name="displayFriends" onClick={this.displayFriends}> Display Friends</Button>
+              <Button name="displayFriends" onClick={this.displayFriends}> Display Friends</Button>
             </div>
 
             <br/>
