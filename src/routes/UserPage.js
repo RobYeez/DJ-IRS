@@ -61,9 +61,11 @@ export default class UserPage extends React.Component {
 
   handleAdd(event) {
     AddFriend(this.state.addFriendText, this.state.User_Email);
+    this.UpdateUserData();
     this.setState({
       addFriendText: "",
     });
+    event.preventDefault();
   }
 
   handleChange(event) {
@@ -77,10 +79,6 @@ export default class UserPage extends React.Component {
 
   handleLogout(){
     Logout(this.props);
-  }
-
-  displayFriends() {
-    DisplayFriends();
   }
 
   LoggedInPage() {
@@ -104,11 +102,16 @@ export default class UserPage extends React.Component {
                 </div>
             </Form.Group>
             
-            {/* Display Friends */}
-            <div>
-              <Button name="displayFriends" onClick={this.displayFriends}> Display Friends</Button>
+            <div id="friends"> Friends
+              <ul>
+                {this.state.User_Friends.map((item) => {
+                  return (
+                    <li >{item}
+                    </li>
+                  )
+                })}
+              </ul>
             </div>
-
             <br/>
             <div>
               <Button name="button" onClick={this.handleLogout}>Logout</Button>
@@ -118,6 +121,11 @@ export default class UserPage extends React.Component {
       </div>
     );
   }
+
+
+
+
+
 
   LoggedOutPage() {
     return (
