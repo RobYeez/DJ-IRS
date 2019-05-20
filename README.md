@@ -6,6 +6,6 @@ The FM Music Player is a music-sharing mobile application where two or more user
 ### Sprint 3 User Stories to Demo
 * Favorites - As a user that has preferred songs, I would like to be able to favorite songs so I can access them more easily in the future. 
 * Group Queue - As a user that listens with friends often, my friends and I often want to play different songs without interrupting what is currently playing.
-* Messaging - As a user with friends, I would like to be able to message my friends.
+* Messaging - As a user, I would like to have a live chat with the other users in the room.
 
 [Scrum Template](https://docs.google.com/spreadsheets/d/1nhRw-kVF4KX5-mIonh-vHwY4g8o0PF9JAonYF4kTRXc/edit?usp=sharing)
