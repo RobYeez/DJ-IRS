@@ -18,9 +18,11 @@ export default class SignUp extends React.Component {
       User_Firstname: "",
       User_Lastname: "",
       User_Email: "",
+      // User_Friends: "friend_bot",
       User_Friends: [],
       User_Token: "",
       User_Notifications: [],
+      User_FriendsCnt: 0,
 
       firstname: "",
       lastname: "",
@@ -79,16 +81,16 @@ export default class SignUp extends React.Component {
         CreateUser( this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.props)
       }
     else {
-      if (this.state.firstname == "") {
+      if (this.state.firstname === "") {
         alert("Missing First Name");
       }
-      else if (this.state.lastname == "") {
+      else if (this.state.lastname === "") {
         alert("Missing Last Name");
       }
-      else if (this.state.email == "") {
+      else if (this.state.email === "") {
         alert("Missing Email");
       }
-      else if (this.state.password == "") {
+      else if (this.state.password === "") {
         alert("Missing Password");
       }
     }

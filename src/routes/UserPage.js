@@ -1,7 +1,7 @@
 import React from 'react';
 // import '../StyleSheets/HomePage.css';
 import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
-import {/*DisplayFriends,*/ AddFriend, Logout, GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js";
+import {DisplayFriends, AddFriend, Logout, GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js";
 import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
 import {Form} from 'react-bootstrap'
@@ -20,8 +20,10 @@ export default class UserPage extends React.Component {
       User_Friends: [],
       User_Token: "",
       User_Notifications: [],
+      User_FriendsCnt: 0,
 
       addFriendText: "",
+      
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -58,7 +60,7 @@ export default class UserPage extends React.Component {
   }
 
   handleAdd(event) {
-    AddFriend(this.state.addFriendText, this.props);
+    AddFriend(this.state.addFriendText);
   }
 
   handleChange(event) {
@@ -74,9 +76,9 @@ export default class UserPage extends React.Component {
     Logout(this.props);
   }
 
-  // displayFriends() {
-  //   DisplayFriends(this.props);
-  // }
+  displayFriends() {
+    DisplayFriends();
+  }
 
   LoggedInPage() {
     return (
@@ -100,9 +102,9 @@ export default class UserPage extends React.Component {
             </Form.Group>
             
             {/* Display Friends */}
-            {/* <div>
+            <div>
             <Button name="displayFriends" onClick={this.displayFriends}> Display Friends</Button>
-            </div> */}
+            </div>
 
             <br/>
             <div>

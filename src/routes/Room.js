@@ -23,6 +23,7 @@ export default class Room extends React.Component {
             User_Friends: [],
             User_Token: "",
             User_Notifications: [],
+            User_FriendsCnt: 0,
     
             videos: [],
             watchHist: [],
