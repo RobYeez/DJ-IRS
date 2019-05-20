@@ -10,7 +10,7 @@ import {GetUserData, GetUser, SendTokenToServer, getVideo, getList} from "../Use
 import Navbarin from '../components/Navbarin.js';
 import {Row} from 'react-bootstrap'
 import {Col} from 'react-bootstrap'
-import openSocket from 'socket.io-client';
+import openSocket from 'socket.io-client'; 
 const socket = openSocket('http://localhost:4001');
 
 export default class Room extends React.Component {
