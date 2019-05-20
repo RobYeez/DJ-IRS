@@ -217,8 +217,7 @@ export function Logout(props) {
 //       }
 //     }
     
-//does not check for duplicate friend request
-
+//does not check for duplicate friend request ...yet
 export function AddFriend(addFriendText) {
   db.collection("users").where("User_Email", "==", addFriendText)
     .get()
@@ -246,15 +245,15 @@ export function AddFriend(addFriendText) {
                       alert("Thats a friend!");
                       // window.location.reload();
                   }
-                });
-              }  
-          });
-      
+                }); //docref loop
+              } //if user    
+          }); //for each check loop
+
               //cant get the other guys to go up too  
               
               // var homie = firebase.auth().addFriendText;
               // console.log(db.collection("users").doc(homie.uid));
-              // var homieInput = db.collection("users").doc(homie.uid);
+              // // var homieInput = db.collection("users").doc(homie.uid);
               // if(homie) {
               //   var docRef = db.collection("users").doc(homie.uid);
               //   docRef.get().then( function(doc) {
@@ -274,9 +273,14 @@ export function AddFriend(addFriendText) {
               // }
             })
             .catch(function(error) {
-            console.log("Error not a valid email", error);
+            // console.log("Error not a valid email", error);
             alert("Not a valid Email");
             });
+
+            //for other person
+            var homie = firebase.auth(addFriendText);
+            console.log(db.collection("users").doc(homie.uid));
+           
   }    
 //output into a list?
 export function DisplayFriends() {
@@ -289,7 +293,11 @@ export function DisplayFriends() {
         //figure out friends list 
         //construct a table and have it return that when called?
         const data = doc.data();
-        console.log(data.User_Friends.length())
+        for(var i = 0; i < data.User_Friends.length; ++i) {
+          // return <div className='ui middle aligned divided list'>{data.User_Friends[i]}</div>;
+          // *** DOESNT DISPLAY ONTO BROWSWER ..yet***
+          console.log(data.User_Friends[i]);
+        }
         // document.getElementById("test").innerHTML(data.User_Friends);
       }
     });
