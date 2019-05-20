@@ -61,6 +61,9 @@ export default class UserPage extends React.Component {
 
   handleAdd(event) {
     AddFriend(this.state.addFriendText, this.state.User_Email);
+    this.setState({
+      addFriendText: "",
+    });
   }
 
   handleChange(event) {
