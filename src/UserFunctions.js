@@ -218,68 +218,29 @@ export function Logout(props) {
 //     }
     
 //does not check for duplicate friend request ...yet
-export function AddFriend(addFriendText) {
-  db.collection("users").where("User_Email", "==", addFriendText)
-    .get()
-      .then(function(check) {
-        check.forEach(function(doc) { 
-          // .then(function() {
-          var user = firebase.auth().currentUser;
-            var newInput = db.collection("users").doc(user.uid);
-              if(user) {
-                var docRef = db.collection("users").doc(user.uid);
-                docRef.get().then( function(doc) {
-                  if(doc && doc.exists) {
-                    //console.log(doc);
-                    const data = doc.data();
-                    //console.log(data);
-                    newInput.update({
-                      // User_Friends: data.User_Friends + ", " + addFriendText
-                      User_Friends: firebase.firestore.FieldValue.arrayUnion(addFriendText)
-                    });      
-                    newInput.update({
-                      User_FriendsCnt: data.User_FriendsCnt + 1
-                    })
-                      // props.history.push("/userpage");
-                      //refresh 
-                      alert("Thats a friend!");
-                      // window.location.reload();
-                  }
-                }); //docref loop
-              } //if user    
-          }); //for each check loop
-
-              //cant get the other guys to go up too  
-              
-              // var homie = firebase.auth().addFriendText;
-              // console.log(db.collection("users").doc(homie.uid));
-              // // var homieInput = db.collection("users").doc(homie.uid);
-              // if(homie) {
-              //   var docRef = db.collection("users").doc(homie.uid);
-              //   docRef.get().then( function(doc) {
-              //     if(doc && doc.exists) {
-              //       //console.log(doc);
-              //       const data = doc.data();
-              //       //console.log(data);
-              //       homieInput.update({
-              //         User_Friends: data.User_Friends + ", " + user
-              //       });      
-              //       newInput.update({
-              //         User_FriendsCnt: data.User_FriendsCnt + 1
-              //       })
-              //         // props.history.push("/userpage");
-              //     }
-              //   });
-              // }
-            })
-            .catch(function(error) {
-            // console.log("Error not a valid email", error);
-            alert("Not a valid Email");
-            });
-
-            //for other person
-            var homie = firebase.auth(addFriendText);
-            console.log(db.collection("users").doc(homie.uid));
+export function AddFriend(addFriendText, myEmail) {
+  db.collection("users").where("User_Email", "==", addFriendText).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        var theirUID = doc.id;
+        var docRef = db.collection("users").doc(theirUID);
+        docRef.update({
+          User_Friends: firebase.firestore.FieldValue.arrayUnion(myEmail)
+        });
+      });
+  }).then(function() {
+        var user = firebase.auth().currentUser;
+        if(user) {
+          var docRef = db.collection("users").doc(user.uid);
+          docRef.update({
+              User_Friends: firebase.firestore.FieldValue.arrayUnion(addFriendText)
+          });
+        }
+  }).catch(function(error) {
+        // An error happened.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        alert("Error Code: " + errorCode + "\n" + errorMessage);
+  });
            
   }    
 //output into a list?
