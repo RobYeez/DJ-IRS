@@ -1,7 +1,7 @@
 import React from 'react';
 // import '../StyleSheets/HomePage.css';
 import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
-import {AddFriend, Logout, GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js";
+import {/*DisplayFriends,*/ AddFriend, Logout, GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js";
 import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
 import {Form} from 'react-bootstrap'
@@ -71,9 +71,12 @@ export default class UserPage extends React.Component {
   }
 
   handleLogout(){
-    
     Logout(this.props);
   }
+
+  // displayFriends() {
+  //   DisplayFriends(this.props);
+  // }
 
   LoggedInPage() {
     return (
@@ -90,12 +93,17 @@ export default class UserPage extends React.Component {
             <br/>
             <Form.Group controlId="addfriend">
                 <Form.Label>Add Friend</Form.Label>
-                <Form.Control name="addFriendText" type="email" value={this.state.addFriendText} onChange={this.handleChange} placeholder="Friend..." />
+                <Form.Control name="addFriendText" type="email" value={this.state.addFriendText} onChange={this.handleChange} placeholder="Add Friend..." />
                 <div>
                   <Button name="addbtn" onClick={this.handleAdd}>Add</Button>
                 </div>
             </Form.Group>
             
+            {/* Display Friends */}
+            {/* <div>
+            <Button name="displayFriends" onClick={this.displayFriends}> Display Friends</Button>
+            </div> */}
+
             <br/>
             <div>
               <Button name="button" onClick={this.handleLogout}>Logout</Button>
@@ -112,9 +120,6 @@ export default class UserPage extends React.Component {
         <Navbarin />
         <div id="loggedOutDiv">
           <br/>
-          <Container>
-              
-          </Container>
         </div>
       </div>
     );

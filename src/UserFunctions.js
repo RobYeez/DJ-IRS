@@ -193,32 +193,58 @@ export function Logout(props) {
       });
             
 }
+
+// export function AddFriend(addFriendText, props) {
+//   var user = firebase.auth().currentUser;
+//     var newInput = db.collection("users").doc(user.uid);
+//       if(user) {
+//         var docRef = db.collection("users").doc(user.uid);
+//         docRef.get().then( function(doc) {
+//           if(doc && doc.exists) {
+//             //console.log(doc);
+//             const data = doc.data();
+//             //console.log(data);
+//             newInput.update({
+//               User_Friends: data.User_Friends + ", " + addFriendText
+//             });      
+//               props.history.push("/userpage");
+//           }
+//         });
+//       }
+//     }
+    
 export function AddFriend(addFriendText, props) {
-  var user = firebase.auth().currentUser;
-    var newInput = db.collection("users").doc(user.uid);
-    // docRef.get().then( function(doc) {
-        // const data = doc.data();
-  // var newInput = db.collection("users").doc(user.uid).push();
-  // // newInput.set({
-  // //   User_Friends: addFriendText
-  // // })
-  // //SET OVERIDES ENTIRE THING
-  // UPDATE OVERRIDES THAT SPECIFC SPOT
-  if(user) {
-    var docRef = db.collection("users").doc(user.uid);
-    docRef.get().then( function(doc) {
-      if(doc && doc.exists) {
-        //console.log(doc);
-        const data = doc.data();
-        //console.log(data);
-        newInput.update({
-          User_Friends: data.User_Friends + ", " + addFriendText
-        });      
-          // props.history.push("/userpage");
-
-      }
+  db.collection("users").where("User_Email", "==", addFriendText)
+    .get()
+    .then(function(check) {
+        check.forEach(function() {
+            // doc.data() is never undefined for query doc snapshots
+            var user = firebase.auth().currentUser;
+              var newInput = db.collection("users").doc(user.uid);
+                if(user) {
+                  var docRef = db.collection("users").doc(user.uid);
+                  docRef.get().then( function(doc) {
+                    if(doc && doc.exists) {
+                      //console.log(doc);
+                      const data = doc.data();
+                      //console.log(data);
+                      newInput.update({
+                        User_Friends: data.User_Friends + ", " + addFriendText
+                      });      
+                        // props.history.push("/userpage");
+                        //refresh 
+                        window.location.reload();
+                    }
+                  });
+                }
+          });
+    })
+    .catch(function(error) {
+        console.log("Error not a valid email", error);
+        alert("Not a valid Email");
     });
-  }
-  props.history.push("/userpage");
+}    
+// export function DisplayFriends(props) {
+//   for()
+// }
 
-}
