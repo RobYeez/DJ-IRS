@@ -1,5 +1,7 @@
 import firebase from "./firebase.js";
-import React from 'react'
+import openSocket from 'socket.io-client';
+const socket = openSocket('http://localhost:4001');
+
 var db = firebase.firestore();
 var token = "";
 
@@ -274,3 +276,21 @@ export function DisplayFriends() {
   // }
 }
 
+//-------------Socket Functions--------------
+export function getVideo(currentComponent) {
+  socket.on('getVideoClient', function(data) {
+    currentComponent.setState ({selectedVideo: data})
+  });
+}
+
+export function getList(currentComponent) {
+  socket.on('changeListClient', function(data) {
+    currentComponent.setState ({videos: data})
+  });
+}
+
+export function getTerm(currentComponent){
+  socket.on('changeTermClient', function(data) {
+    currentComponent.setState({})
+  })
+}

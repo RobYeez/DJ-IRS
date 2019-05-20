@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactPlayer from 'react-player';
+
 
 const VideoDetail = ({video}) => {
     if (!video) {
@@ -6,11 +8,10 @@ const VideoDetail = ({video}) => {
     }
 
     const videoSrc = `https://www.youtube.com/embed/${video.id.videoId}`;
-    console.log(typeof(video));
     return (
         <div>
             <div className='ui embed'>
-                <iframe src={videoSrc} allowFullScreen title='Video player'/>
+                <ReactPlayer url={videoSrc} playing={true}/>
             </div>
             <div className='ui segment'>
                 <h4 className='ui header'>{video.snippet.title}</h4>
