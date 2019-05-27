@@ -228,8 +228,6 @@ export function AddFriend(addFriendText, myEmail) {
         docRef.update({
           User_Friends: firebase.firestore.FieldValue.arrayUnion(myEmail)
         });
-      });
-  }).then(function() {
         var user = firebase.auth().currentUser;
         if(user) {
           var docRef = db.collection("users").doc(user.uid);
@@ -239,6 +237,7 @@ export function AddFriend(addFriendText, myEmail) {
         }
         alert("Friend has been added!");
         window.location.reload();
+      });
   }).catch(function(error) {
         // An error happened.
         var errorCode = error.code;
