@@ -54,7 +54,7 @@ export default class Room extends React.Component {
           100
         );
         this.timerID = setInterval(
-          () => this.updateList(),
+          () => this.updateLists(),
           100
         );
       }
@@ -73,8 +73,9 @@ export default class Room extends React.Component {
         }
       }
 
-      updateList() { 
+      updateLists() { 
         getList(this);
+        
         this.forceUpdate(); 
       }
 
@@ -128,8 +129,13 @@ export default class Room extends React.Component {
     handleAddToFavorites(event) {
       //get the id of the selected video
       //pass it into this user function
-      AddFavorite(this.state.selectedVideo);
-
+      if(this.state.selectedVideo) {
+        AddFavorite(this.state.selectedVideo);
+        this.setState({
+          User_Loaded: false
+        });
+      }
+      
     }
 
       LoggedInPage() {
@@ -151,8 +157,11 @@ export default class Room extends React.Component {
                         </Col>
                         
                     </Row>
-                    <Button variant="primary" type="submit" name="button" onClick={this.handleAddToFavorites}>Favorite</Button>
-                    <br/><br/><br/>
+                    <div id="favdiv" >
+                      <Button variant="primary" type="submit" name="button" onClick={this.handleAddToFavorites}>Favorite</Button>
+                      <br/><br/><br/>
+                    </div>
+                    
                     <Row>
                       <Col>
                         <h4>Results</h4>
