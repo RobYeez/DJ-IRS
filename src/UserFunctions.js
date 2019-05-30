@@ -109,7 +109,7 @@ export function GetUserData(currentComponent) {
             User_Email: data.User_Email,
             User_Friends: data.User_Friends,
             User_Token: data.User_Token,
-            User_Notifications: data.User_Notifications,
+            User_Favorites: data.User_Favorites,
             User_FriendsCnt: data.User_FriendsCnt,
           });
         }
@@ -131,7 +131,7 @@ export function GetUserData(currentComponent) {
         User_Email: "",
         User_Friends: [],
         User_Token: "",
-        User_Notifications: [],
+        User_Favorites: [],
         User_FriendsCnt: 0,
       });
     }
@@ -148,7 +148,7 @@ export function CreateUser(firstname, lastname, email, password, props) {
             // User_Friends: "friend_bot",
             User_Friends: [],
             User_Token: "",
-            User_Notifications: [],
+            User_Favorites: [],
             User_FriendsCnt: 0,
           });
           
@@ -246,6 +246,26 @@ export function AddFriend(addFriendText, myEmail) {
   });
            
   }    
+
+
+
+
+  export function AddFavorite(favorite) {
+    var user = firebase.auth().currentUser;
+        if(user) {
+          var docRef = db.collection("users").doc(user.uid); 
+          docRef.update({
+            User_Favorites: firebase.firestore.FieldValue.arrayUnion(favorite)
+          });
+          
+        }
+          
+  }
+
+
+
+
+
 //output into a list?
 export function DisplayFriends() {
   var user = firebase.auth().currentUser;

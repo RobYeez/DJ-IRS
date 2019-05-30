@@ -21,7 +21,7 @@ export default class SignUp extends React.Component {
       // User_Friends: "friend_bot",
       User_Friends: [],
       User_Token: "",
-      User_Notifications: [],
+      User_Favorites: [],
       User_FriendsCnt: 0,
 
       firstname: "",

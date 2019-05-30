@@ -3,13 +3,14 @@ import SearchBar from '../searchFunction/Searchbar';
 import youtube from '../apis/youtube';
 import VideoList from '../searchFunction/VideoList';
 import VideoDetail from '../searchFunction/VideoDetail';
-import HistList from '../searchFunction/HistList';
+import {HistList} from '../searchFunction/HistList';
 import {Container} from 'react-bootstrap'
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
-import {GetUserData, GetUser, SendTokenToServer, getVideo, getList} from "../UserFunctions.js"
+import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite} from "../UserFunctions.js"
 import Navbarin from '../components/Navbarin.js';
 import {Row} from 'react-bootstrap'
 import {Col} from 'react-bootstrap'
+import {Button} from 'react-bootstrap'
 import openSocket from 'socket.io-client'; 
 const socket = openSocket('http://localhost:4001');
 
@@ -24,7 +25,7 @@ export default class Room extends React.Component {
             User_Email: "",
             User_Friends: [],
             User_Token: "",
-            User_Notifications: [],
+            User_Favorites: [],
             User_FriendsCnt: 0,
     
             videos: [],
@@ -34,6 +35,7 @@ export default class Room extends React.Component {
     
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleAddToFavorites = this.handleAddToFavorites.bind(this);
         this.LoggedInPage = this.LoggedInPage.bind(this);
         this.LoggedOutPage = this.LoggedOutPage.bind(this);
         this.UpdateUserData = this.UpdateUserData.bind(this);
@@ -123,6 +125,13 @@ export default class Room extends React.Component {
       })
     }
 
+    handleAddToFavorites(event) {
+      //get the id of the selected video
+      //pass it into this user function
+      AddFavorite(this.state.selectedVideo);
+
+    }
+
       LoggedInPage() {
         return (
           <div>
@@ -138,17 +147,26 @@ export default class Room extends React.Component {
                     <Row>
                         <Col>
                           <VideoDetail video={this.state.selectedVideo}/>
+                          
                         </Col>
+                        
                     </Row>
-
+                    <Button variant="primary" type="submit" name="button" onClick={this.handleAddToFavorites}>Favorite</Button>
+                    <br/><br/><br/>
                     <Row>
                       <Col>
+                        <h4>Results</h4>
                         <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos}/>
                       </Col>
-                        <h4>Watch History</h4>
                       <Col>
+                        <h4>Watch History</h4>
                         <HistList handleVideoSelect={this.handleVideoSelect} watchHist={this.state.watchHist}/>
                       </Col>
+                      <Col>
+                        <h4>Favorites</h4>
+                        <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.User_Favorites}/>
+                      </Col>
+
                     </Row>
               </Container>
             </div>

@@ -20,7 +20,7 @@ export default class LogIn extends React.Component {
           User_Email: "",
           User_Friends: [],
           User_Token: "",
-          User_Notifications: [],
+          User_Favorites: [],
           User_FriendsCnt: 0,
           
           email: "",
