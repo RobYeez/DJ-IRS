@@ -262,6 +262,18 @@ export function AddFriend(addFriendText, myEmail) {
           
   }
 
+  export function RemoveFavorite(video) {
+    // var user = firebase.auth().currentUser;
+    //     if(user) {
+    //       var docRef = db.collection("users").doc(user.uid); 
+    //       docRef.update({
+    //         User_Favorites: firebase.firestore.FieldValue.arrayUnion(favorite)
+    //       });
+          
+    //     }
+          
+  }
+
 
 
 
