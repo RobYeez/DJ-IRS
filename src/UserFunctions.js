@@ -145,7 +145,6 @@ export function CreateUser(firstname, lastname, email, password, props) {
             User_Firstname: firstname,
             User_Lastname: lastname,
             User_Email: email,
-            // User_Friends: "friend_bot",
             User_Friends: [],
             User_Token: "",
             User_Favorites: [],

@@ -97,7 +97,7 @@ export default class SignUp extends React.Component {
 
     // CreateUser( this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.props)
 
-    // alert("A sign up was submitted: " + this.state.firstname + ", " + this.state.lastname + ", " + this.state.email + ", " + this.state.password);
+    //alert("A sign up was submitted: " + this.state.firstname + ", " + this.state.lastname + ", " + this.state.email + ", " + this.state.password);
     
     // this.setState({
     //   firstname: "",
