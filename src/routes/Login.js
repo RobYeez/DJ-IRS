@@ -2,7 +2,7 @@ import React from 'react';
 // import logo from './logo.svg';
 // import '../StyleSheets/SignUp.css';
 import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
-import {Login, GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js"
+import {Login, GetUserData, GetUser, SendTokenToServer} from "../User/UserFunctions.js"
 import {Form} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
 import {Container} from 'react-bootstrap'

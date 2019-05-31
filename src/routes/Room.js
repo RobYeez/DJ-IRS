@@ -4,10 +4,10 @@ import youtube from '../apis/youtube';
 import VideoList from '../searchFunction/VideoList';
 import VideoDetail from '../searchFunction/VideoDetail';
 import {HistList} from '../searchFunction/HistList';
-import {FavList} from '../searchFunction/FavList';
+import {FavList} from '../User/FavList';
 import {Container} from 'react-bootstrap'
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
-import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite} from "../UserFunctions.js"
+import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite} from "../User/UserFunctions.js"
 import Navbarin from '../components/Navbarin.js';
 import {Row} from 'react-bootstrap'
 import {Col} from 'react-bootstrap'

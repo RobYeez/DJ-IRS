@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import {GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js"
+import {GetUserData, GetUser, SendTokenToServer} from "../User/UserFunctions.js"
 import homebkgrnd from '../images/homebkgrnd.jpg';
 import firebase from "../firebase.js";
 import 'bootstrap/dist/css/bootstrap.min.css';

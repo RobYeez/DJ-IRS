@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button} from 'react-bootstrap';
-import {RemoveFavorite} from "../UserFunctions.js";
+import {RemoveFavorite} from "./UserFunctions.js";
 
 export default class FavButton {
     constructor(video, currentComponent) {

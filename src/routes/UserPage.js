@@ -1,12 +1,13 @@
 import React from 'react';
 // import '../StyleSheets/HomePage.css';
 import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-dom";
-import {DisplayFriends, AddFriend, Logout, GetUserData, GetUser, SendTokenToServer} from "../UserFunctions.js";
+import {DisplayFriends, AddFriend, Logout, GetUserData, GetUser, SendTokenToServer} from "../User/UserFunctions.js"
 import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
 import {Form} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
 import {Container} from 'react-bootstrap'
+import { Friendist } from '../User/FriendList.js';
 
 export default class UserPage extends React.Component {
   constructor(props) {
@@ -60,8 +61,7 @@ export default class UserPage extends React.Component {
   }
 
   handleAdd(event) {
-    AddFriend(this.state.addFriendText, this.state.User_Email);
-    this.UpdateUserData();
+    AddFriend(this.state.addFriendText, this, this.state.User_Email);
     this.setState({
       addFriendText: "",
     });
@@ -104,12 +104,7 @@ export default class UserPage extends React.Component {
             
             <div id="friends"> Friends
               <ul>
-                {this.state.User_Friends.map((item) => {
-                  return (
-                    <li >{item}
-                    </li>
-                  )
-                })}
+                <Friendist friends={this.state.User_Friends} currentComponent={this} myEmail={this.state.User_Email} ></Friendist>
               </ul>
             </div>
             <br/>
