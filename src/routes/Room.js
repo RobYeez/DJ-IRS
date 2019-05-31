@@ -7,7 +7,7 @@ import {HistList} from '../searchFunction/HistList';
 import {FavList} from '../searchFunction/FavList';
 import {Container} from 'react-bootstrap'
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
-import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite, RemoveFavorite} from "../UserFunctions.js"
+import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite} from "../UserFunctions.js"
 import Navbarin from '../components/Navbarin.js';
 import {Row} from 'react-bootstrap'
 import {Col} from 'react-bootstrap'
@@ -37,7 +37,6 @@ export default class Room extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAddToFavorites = this.handleAddToFavorites.bind(this);
-        this.handleRemoveFavorite = this.handleRemoveFavorite.bind(this);
         this.LoggedInPage = this.LoggedInPage.bind(this);
         this.LoggedOutPage = this.LoggedOutPage.bind(this);
         this.UpdateUserData = this.UpdateUserData.bind(this);
@@ -56,7 +55,7 @@ export default class Room extends React.Component {
           100
         );
         this.timerID = setInterval(
-          () => this.updateLists(),
+          () => this.updateList(),
           100
         );
       }
@@ -75,7 +74,7 @@ export default class Room extends React.Component {
         }
       }
 
-      updateLists() { 
+      updateList() { 
         getList(this);
         
         this.forceUpdate(); 
@@ -140,17 +139,7 @@ export default class Room extends React.Component {
       
     }
 
-    handleRemoveFavorite(video) {
-      //get the id of the selected video
-      //pass it into this user function
-      if(this.state.selectedVideo) {
-        RemoveFavorite(video);
-        this.setState({
-          User_Loaded: false
-        });
-      }
       
-    }
 
       LoggedInPage() {
         return (
@@ -187,7 +176,7 @@ export default class Room extends React.Component {
                       </Col>
                       <Col>
                         <h4>Favorites</h4>
-                        <FavList handleVideoSelect={this.handleVideoSelect} videos={this.state.User_Favorites} handleRemoveFavorite={this.handleRemoveFavorite}/>
+                        <FavList handleVideoSelect={this.handleVideoSelect} videos={this.state.User_Favorites} currentComponent={this} />
                       </Col>
 
                     </Row>

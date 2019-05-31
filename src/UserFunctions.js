@@ -199,27 +199,11 @@ export function Logout(props) {
             
 }
 
-// export function AddFriend(addFriendText, props) {
-//   var user = firebase.auth().currentUser;
-//     var newInput = db.collection("users").doc(user.uid);
-//       if(user) {
-//         var docRef = db.collection("users").doc(user.uid);
-//         docRef.get().then( function(doc) {
-//           if(doc && doc.exists) {
-//             //console.log(doc);
-//             const data = doc.data();
-//             //console.log(data);
-//             newInput.update({
-//               User_Friends: data.User_Friends + ", " + addFriendText
-//             });      
-//               props.history.push("/userpage");
-//           }
-//         });
-//       }
-//     }
-    
-//does not check for duplicate friend request ...yet
+
+
+
 export function AddFriend(addFriendText, myEmail) {
+  var n = 0;
   db.collection("users").where("User_Email", "==", addFriendText).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         var theirUID = doc.id;
@@ -236,6 +220,7 @@ export function AddFriend(addFriendText, myEmail) {
         }
         alert("Friend has been added!");
         window.location.reload();
+        n += 1;
       });
   }).catch(function(error) {
         // An error happened.
@@ -243,8 +228,11 @@ export function AddFriend(addFriendText, myEmail) {
         var errorMessage = error.message;
         alert("Error Code: " + errorCode + "\n" + errorMessage);
   });
-           
-  }    
+  
+  if (n == 0) {
+    alert("Friend not added\n" + "Email: " + addFriendText + " is not recognized.");
+  }
+}    
 
 
 
@@ -261,15 +249,24 @@ export function AddFriend(addFriendText, myEmail) {
           
   }
 
-  export function RemoveFavorite(video) {
-    // var user = firebase.auth().currentUser;
-    //     if(user) {
-    //       var docRef = db.collection("users").doc(user.uid); 
-    //       docRef.update({
-    //         User_Favorites: firebase.firestore.FieldValue.arrayUnion(favorite)
-    //       });
+  export function RemoveFavorite(video, currentComponent) {
+    var user = firebase.auth().currentUser;
+        if(user) {
+          if(video) {
+            var docRef = db.collection("users").doc(user.uid); 
+            docRef.update({
+              User_Favorites: firebase.firestore.FieldValue.arrayRemove(video)
+            }).then(function() {
+              currentComponent.setState({
+                User_Loaded: false,
+              });
+
+              alert("Removed: " + video.snippet.title);
+              
+            });
+          }
           
-    //     }
+        }
           
   }
 
