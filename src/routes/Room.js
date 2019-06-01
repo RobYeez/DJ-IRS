@@ -1,8 +1,10 @@
 import React from 'react';
 import SearchBar from '../searchFunction/Searchbar';
 import youtube from '../apis/youtube';
+import ReactPlayer from 'react-player'
 import VideoList from '../searchFunction/VideoList';
 import VideoDetail from '../searchFunction/VideoDetail';
+import VideoQueue from '../searchFunction/VideoQueue';
 import {HistList} from '../searchFunction/HistList';
 import {FavList} from '../User/FavList';
 import {Container} from 'react-bootstrap'
@@ -31,7 +33,23 @@ export default class Room extends React.Component {
     
             videos: [],
             watchHist: [],
-            selectedVideo: null
+            queueList: [],
+            selectedVideo: null,
+            selectedVidQ: null,
+
+            url: null,
+            pip: false,
+            playing: true,
+            controls: true,
+            light: false,
+            volume: 0.8,
+            muted: false,
+            played: 0,
+            loaded: 0,
+            duration: 0,
+            playbackRate: 1.0,
+            loop: true,
+            videoSrc: null
         };
     
         this.handleChange = this.handleChange.bind(this);
@@ -40,6 +58,7 @@ export default class Room extends React.Component {
         this.LoggedInPage = this.LoggedInPage.bind(this);
         this.LoggedOutPage = this.LoggedOutPage.bind(this);
         this.UpdateUserData = this.UpdateUserData.bind(this);
+        this.onEnded = this.onEnded.bind(this);
     
       }
     
@@ -127,6 +146,25 @@ export default class Room extends React.Component {
       })
     }
 
+    handleVidQSelect = (video) => {
+      this.setState({selectedVidQ: video})
+      var qArray = this.state.queueList.slice()
+
+      for(var i=0; i < qArray.length; i++) {
+        if(video == qArray[i]) {
+          qArray.splice(i, 1) 
+        }
+      }
+      if(qArray.length >= 5) {
+        qArray = qArray.slice(1);
+      }
+      qArray.push(video)
+
+      this.setState({
+        queueList: qArray
+      })
+     }
+
     handleAddToFavorites(event) {
       //get the id of the selected video
       //pass it into this user function
@@ -139,9 +177,33 @@ export default class Room extends React.Component {
       
     }
 
-      
+    onEnded = () => {
+      if (!this.state.queueList.length == 0) {
+        this.setState({selectedVideo: this.state.queueList[0]})
+        this.state.queueList.shift()
+
+        var newArray = this.state.watchHist.slice()
+        for(var i=0; i < newArray.length; i++) {
+          if(this.state.selectedVideo == newArray[i]) {
+            newArray.splice(i, 1) 
+          }
+        }
+        if(newArray.length >= 5) {
+          newArray = newArray.slice(1);
+        }
+        newArray.push(this.state.selectedVideo)
+        this.setState({
+          watchHist: newArray
+        })
+      }
+     } 
 
       LoggedInPage() {
+        const { playing, controls } = this.state
+        var videoSrc = "#";
+        if (this.state.selectedVideo) {
+          videoSrc = `https://www.youtube.com/embed/${this.state.selectedVideo.id.videoId}`;
+        }
         return (
           <div>
             <Navbarin />
@@ -155,7 +217,7 @@ export default class Room extends React.Component {
 
                     <Row>
                         <Col>
-                          <VideoDetail video={this.state.selectedVideo}/>
+                        <ReactPlayer onEnded={this.onEnded} controls={controls} url={videoSrc} playing={playing} />
                           
                         </Col>
                         
@@ -167,8 +229,8 @@ export default class Room extends React.Component {
                     
                     <Row>
                       <Col>
-                        <h4>Results</h4>
-                        <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos}/>
+                        <h4>Search Results</h4>
+                        <VideoList handleVideoSelect={this.handleVideoSelect} handleVidQSelect={this.handleVidQSelect} videos={this.state.videos}/>
                       </Col>
                       <Col>
                         <h4>Watch History</h4>
@@ -178,7 +240,10 @@ export default class Room extends React.Component {
                         <h4>Favorites</h4>
                         <FavList handleVideoSelect={this.handleVideoSelect} videos={this.state.User_Favorites} currentComponent={this} />
                       </Col>
-
+                      <Col>
+                        <h4>Queue</h4>
+                        <VideoQueue handleVidQSelect={this.handleVidQSelect} queueList={this.state.queueList} />
+                      </Col>
                     </Row>
               </Container>
             </div>

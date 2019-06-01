@@ -1,7 +1,7 @@
 import React from 'react';
 import {Row} from 'react-bootstrap';
 import {Col} from 'react-bootstrap';
-import VideoItem from '../searchFunction/VideoItem';
+import FavItem from './FavItem.js';
 import FavButton from './FavButton.js';
 
 
@@ -11,7 +11,7 @@ export const FavList = ({videos , handleVideoSelect, currentComponent}) => {
         return (
             <Row>
                 <Col>
-                    <VideoItem key={video.id.videoId} video={video} handleVideoSelect={handleVideoSelect} />
+                    <FavItem key={video.id.videoId} video={video} handleVideoSelect={handleVideoSelect} />
                 </Col>
                 <Col>
                     {(new FavButton(video, currentComponent)).render()}
