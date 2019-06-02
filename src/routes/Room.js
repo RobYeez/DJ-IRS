@@ -3,18 +3,15 @@ import SearchBar from '../searchFunction/Searchbar';
 import youtube from '../apis/youtube';
 import ReactPlayer from 'react-player'
 import VideoList from '../searchFunction/VideoList';
-import VideoDetail from '../searchFunction/VideoDetail';
 import VideoQueue from '../searchFunction/VideoQueue';
 import {HistList} from '../searchFunction/HistList';
 import {FavList} from '../User/FavList';
-import {Container} from 'react-bootstrap'
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
-import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite} from "../User/UserFunctions.js"
+import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite, getPP} from "../User/UserFunctions.js"
 import Navbarin from '../components/Navbarin.js';
-import {Row} from 'react-bootstrap'
-import {Col} from 'react-bootstrap'
-import {Button} from 'react-bootstrap'
-import openSocket from 'socket.io-client'; 
+import {Container, Row, Col, Button, ButtonToolbar} from 'react-bootstrap'
+import openSocket from 'socket.io-client';
+import Duration from "../searchFunction/Duration.js"
 const socket = openSocket('http://localhost:4001');
 
 export default class Room extends React.Component {
@@ -59,59 +56,75 @@ export default class Room extends React.Component {
         this.LoggedOutPage = this.LoggedOutPage.bind(this);
         this.UpdateUserData = this.UpdateUserData.bind(this);
         this.onEnded = this.onEnded.bind(this);
-    
-      }
-    
-      componentDidMount() {
-        //document.title = "DJ-IRS";
-    
-        this.timerID = setInterval(
-          () => this.UpdateUserData(),
-          100
-        ); //updates every 100 ms
-        this.timerID = setInterval(
-          () => this.updateVideo(),
-          100
-        );
-        this.timerID = setInterval(
-          () => this.updateList(),
-          100
-        );
-      }
-    
-      componentWillUnmount() {
-        clearInterval(this.timerID);
-      }
-    
-      UpdateUserData() {
-        var user = GetUser();
-    
-        if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
-          SendTokenToServer();
-          GetUserData(this);
-          this.forceUpdate();
-        }
-      }
+    }
 
-      updateList() { 
-        getList(this);
-        
-        this.forceUpdate(); 
-      }
-
-      updateVideo() {
-        getVideo(this);
+    load = url => {
+      this.setState({
+        url,
+        played: 0,
+        loaded: 0,
+        pip: false
+      })
+    }
+    
+    componentDidMount() {
+      //document.title = "DJ-IRS";
+      this.timerID = setInterval(
+        () => this.UpdateUserData(),
+        100
+      ); //updates every 100 ms
+      this.timerID = setInterval(
+        () => this.updateVideo(),
+        100
+      );
+      this.timerID = setInterval(
+        () => this.updateList(),
+        100
+      );
+      this.timerID = setInterval(
+        () => this.updatePP(),
+        100
+      );
+    }
+  
+    componentWillUnmount() {
+      clearInterval(this.timerID);
+    }
+  
+    UpdateUserData() {
+      var user = GetUser();
+  
+      if( (user && !this.state.User_Loaded) || (!user && this.state.User_Loaded) ) {
+        SendTokenToServer();
+        GetUserData(this);
         this.forceUpdate();
       }
+    }
 
-      handleChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-        this.setState({
-          [name]: value
-        });
-      }
+    updateList() { 
+      getList(this);
+      
+      this.forceUpdate(); 
+    }
+
+    updateVideo() {
+      getVideo(this);
+      this.forceUpdate();
+    }
+
+    updatePP() {
+      getPP(this);
+      this.forceUpdate();
+    }
+
+    handleChange(event) {
+      const target = event.target;
+      const value = target.value;
+      const name = target.name;
+      this.setState({
+        [name]: value
+      });
+    }
 
     handleSubmit = async (termFromSearchBar) => {
         const response = await youtube.get('/search', {
@@ -177,6 +190,42 @@ export default class Room extends React.Component {
       
     }
 
+    playPause = () => {
+      socket.emit("changePP", !this.state.playing)
+      this.setState({ playing: !this.state.playing })
+    }
+  
+    onPlay = () => {
+      console.log('onPlay')
+      this.setState({ playing: true })
+    }
+  
+    onPause = () => {
+      console.log('onPause')
+      this.setState({ playing: false })
+    } 
+    
+    onSeekMouseDown = e => {
+      this.setState({ seeking: true })
+    }
+  
+    onSeekChange = e => {
+      this.setState({ played: parseFloat(e.target.value) })
+    }
+  
+    onSeekMouseUp = e => {
+      this.setState({ seeking: false })
+      this.player.seekTo(parseFloat(e.target.value))
+    }
+
+    onProgress = state => {
+      console.log('onProgress', state)
+      // We only want to update time slider if we are not currently seeking
+      if (!this.state.seeking) {
+        this.setState(state)
+      }
+    }
+
     onEnded = () => {
       if (!this.state.queueList.length == 0) {
         this.setState({selectedVideo: this.state.queueList[0]})
@@ -196,59 +245,82 @@ export default class Room extends React.Component {
           watchHist: newArray
         })
       }
-     } 
+    } 
 
-      LoggedInPage() {
-        const { playing, controls } = this.state
-        var videoSrc = "#";
-        if (this.state.selectedVideo) {
-          videoSrc = `https://www.youtube.com/embed/${this.state.selectedVideo.id.videoId}`;
-        }
-        return (
-          <div>
-            <Navbarin />
-            <div id="loggedOutDiv">
-              <br/>
-              <Container>
-                <div>
-                    <h1>Room</h1>
-                </div>
-                <SearchBar handleFormSubmit={this.handleSubmit}/>
+    onDuration = (duration) => {
+      console.log('onDuration', duration)
+      this.setState({ duration })
+    }
 
-                    <Row>
-                        <Col>
-                        <ReactPlayer onEnded={this.onEnded} controls={controls} url={videoSrc} playing={playing} />
-                          
-                        </Col>
-                        
-                    </Row>
-                    <div id="favdiv" >
-                      <Button variant="primary" type="submit" name="button" onClick={this.handleAddToFavorites}>Favorite</Button>
-                      <br/><br/><br/>
+    LoggedInPage() {
+      const { playing, played, controls, duration } = this.state
+      var videoSrc = "#";
+      if (this.state.selectedVideo) {
+        videoSrc = `https://www.youtube.com/embed/${this.state.selectedVideo.id.videoId}`;
+      }
+      return (
+        <div>
+          <Navbarin />
+          <div id="loggedOutDiv">
+            <br/>
+            <Container>
+              <div>
+                  <h1>Room</h1>
+              </div>
+              <SearchBar handleFormSubmit={this.handleSubmit}/>
+                  <Row>
+                  <Col>
+                    {/*<VideoDetail onPlay={this.onPlay} onPause={this.onPause} video={this.state.selectedVideo}/>*/}
+                    <div className="ui segment">
+                      <h4 className="ui header">TITLE</h4>
                     </div>
-                    
-                    <Row>
-                      <Col>
-                        <h4>Search Results</h4>
-                        <VideoList handleVideoSelect={this.handleVideoSelect} handleVidQSelect={this.handleVidQSelect} videos={this.state.videos}/>
-                      </Col>
-                      <Col>
-                        <h4>Watch History</h4>
-                        <HistList handleVideoSelect={this.handleVideoSelect} watchHist={this.state.watchHist}/>
-                      </Col>
-                      <Col>
-                        <h4>Favorites</h4>
-                        <FavList handleVideoSelect={this.handleVideoSelect} videos={this.state.User_Favorites} currentComponent={this} />
-                      </Col>
-                      <Col>
-                        <h4>Queue</h4>
-                        <VideoQueue handleVidQSelect={this.handleVidQSelect} queueList={this.state.queueList} />
-                      </Col>
-                    </Row>
-              </Container>
-            </div>
+                    <div className="ui embed">
+                      <ReactPlayer onPlay={this.onPlay} onPause={this.onPause} onSeek={e => console.log('onSeek', e)} onProgress={this.onProgress} onDuration={this.onDuration} 
+                      width='300px' height='200px' controls={controls} url={videoSrc} playing={playing} />
+                    </div>
+                  </Col>
+                  <Col>
+                    <ButtonToolbar>
+                      <Button variant="dark" onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</Button>
+                    </ButtonToolbar>
+                    <br />
+                    <input
+                      type='range' min={0} max={1} step='any'
+                      value={played}
+                      onMouseDown={this.onSeekMouseDown}
+                      onChange={this.onSeekChange}
+                      onMouseUp={this.onSeekMouseUp}
+                      width="1000px"
+                    />
+                    <br /><Duration seconds={duration * played} /> / <Duration seconds={duration} />
+                  </Col>
+                  </Row>
+                  <div id="favdiv" >
+                    <Button variant="primary" type="submit" name="button" onClick={this.handleAddToFavorites}>Favorite</Button>
+                    <br/><br/><br/>
+                  </div>
+                  <Row>
+                    <Col>
+                      <h4>Search Results</h4>
+                      <VideoList handleVideoSelect={this.handleVideoSelect} handleVidQSelect={this.handleVidQSelect} videos={this.state.videos}/>
+                    </Col>
+                    <Col>
+                      <h4>Watch History</h4>
+                      <HistList handleVideoSelect={this.handleVideoSelect} watchHist={this.state.watchHist}/>
+                    </Col>
+                    <Col>
+                      <h4>Favorites</h4>
+                      <FavList handleVideoSelect={this.handleVideoSelect} videos={this.state.User_Favorites} currentComponent={this} />
+                    </Col>
+                    <Col>
+                      <h4>Queue</h4>
+                      <VideoQueue handleVidQSelect={this.handleVidQSelect} queueList={this.state.queueList} />
+                    </Col>
+                  </Row>
+            </Container>
           </div>
-        );
+        </div>
+      );
     }
 
     LoggedOutPage() {
@@ -262,8 +334,7 @@ export default class Room extends React.Component {
             </div>
           </div>
         );
-      }
-
+    }
 
     render() {
         if (this.state.User) {
@@ -273,6 +344,5 @@ export default class Room extends React.Component {
         // No user is signed in.
             return this.LoggedOutPage();
         }
-        
     }
 }
