@@ -146,7 +146,7 @@ export default class Room extends React.Component {
       //window.location.reload();
       var newArray = this.state.watchHist.slice()
       for(var i=0; i < newArray.length; i++) {
-        if(video == newArray[i]) {
+        if(video === newArray[i]) {
           newArray.splice(i, 1) 
         }
       }
@@ -164,7 +164,7 @@ export default class Room extends React.Component {
       var qArray = this.state.queueList.slice()
 
       for(var i=0; i < qArray.length; i++) {
-        if(video == qArray[i]) {
+        if(video === qArray[i]) {
           qArray.splice(i, 1) 
         }
       }
@@ -227,13 +227,13 @@ export default class Room extends React.Component {
     }
 
     onEnded = () => {
-      if (!this.state.queueList.length == 0) {
+      if (!this.state.queueList.length === 0) {
         this.setState({selectedVideo: this.state.queueList[0]})
         this.state.queueList.shift()
 
         var newArray = this.state.watchHist.slice()
         for(var i=0; i < newArray.length; i++) {
-          if(this.state.selectedVideo == newArray[i]) {
+          if(this.state.selectedVideo === newArray[i]) {
             newArray.splice(i, 1) 
           }
         }
