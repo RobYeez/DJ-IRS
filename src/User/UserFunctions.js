@@ -199,9 +199,7 @@ export function Logout(props) {
             
 }
 
-
-
-
+//DOes not check for duplicate friends/adding yourself
 export function AddFriend(addFriendText,currentComponent, myEmail) {
   var n = 0;
   db.collection("users").where("User_Email", "==", addFriendText).get().then(function(querySnapshot) {
@@ -209,14 +207,30 @@ export function AddFriend(addFriendText,currentComponent, myEmail) {
         var theirUID = doc.id;
         var docRef = db.collection("users").doc(theirUID);
         docRef.update({
+          // User_Friends: firebase.firestore.FieldValue.arrayUnion(myEmail),
+          // User_FriendsCnt: firebase.firestore.FieldValue.increment(1),
           User_Friends: firebase.firestore.FieldValue.arrayUnion(myEmail)
+        });
+        //increment
+        docRef.update({
+          // User_Friends: firebase.firestore.FieldValue.arrayUnion(myEmail),
+          User_FriendsCnt: firebase.firestore.FieldValue.increment(1)
+          // User_Friends: firebase.firestore.FieldValue.arrayUnion(myEmail)
         });
         var user = firebase.auth().currentUser;
         if(user) {
           var docRef = db.collection("users").doc(user.uid);
           docRef.update({
+              // User_Friends: firebase.firestore.FieldValue.arrayUnion(addFriendText),
+              // User_FriendsCnt: firebase.firestore.FieldValue.increment(1),
               User_Friends: firebase.firestore.FieldValue.arrayUnion(addFriendText)
           });
+          //increment
+          docRef.update({
+            // User_Friends: firebase.firestore.FieldValue.arrayUnion(addFriendText),
+            User_FriendsCnt: firebase.firestore.FieldValue.increment(1)
+            // User_Friends: firebase.firestore.FieldValue.arrayUnion(addFriendText)
+        });
         }
         currentComponent.setState({
           User_Loaded: false,
@@ -224,6 +238,8 @@ export function AddFriend(addFriendText,currentComponent, myEmail) {
         alert("Friend has been added!");
         
         n += 1;
+        //force refresh
+        window.location.reload();
       });
       if (n == 0) {
         alert("Friend not added\n" + "Email: " + addFriendText + " is not recognized.");
@@ -234,12 +250,54 @@ export function AddFriend(addFriendText,currentComponent, myEmail) {
         var errorMessage = error.message;
         alert("Error Code: " + errorCode + "\n" + errorMessage);
   });
-  
-  
 }    
 
-
-
+export function RemoveFriend(friend, currentComponent, myEmail) {
+  db.collection("users").where("User_Email", "==", friend).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        var theirUID = doc.id;
+        var docRef = db.collection("users").doc(theirUID);
+        docRef.update({
+          // User_Friends: firebase.firestore.FieldValue.arrayRemove(myEmail),
+          // User_FriendsCnt: firebase.firestore.FieldValue.increment(-1),
+          User_Friends: firebase.firestore.FieldValue.arrayRemove(myEmail)
+        });
+        //decrement
+        docRef.update({
+          // User_Friends: firebase.firestore.FieldValue.arrayRemove(myEmail),
+          User_FriendsCnt: firebase.firestore.FieldValue.increment(-1)
+          // User_Friends: firebase.firestore.FieldValue.arrayRemove(myEmail)
+        });
+        var user = firebase.auth().currentUser;
+        if(user) {
+          var docRef = db.collection("users").doc(user.uid);
+          docRef.update({
+              // User_FriendsCnt: firebase.firestore.FieldValue.increment(-1),
+              User_Friends: firebase.firestore.FieldValue.arrayRemove(friend)
+              // User_FriendsCnt: firebase.firestore.FieldValue.increment(-1)
+          });
+          //decrement
+          docRef.update({
+            // User_FriendsCnt: firebase.firestore.FieldValue.increment(-1),
+            // User_Friends: firebase.firestore.FieldValue.arrayRemove(friend)
+            User_FriendsCnt: firebase.firestore.FieldValue.increment(-1)
+        });
+        }
+        currentComponent.setState({
+          User_Loaded: false,
+        });
+        alert(friend + " has been removed.");
+        //force refresh
+       window.location.reload();
+      });
+  }).catch(function(error) {
+        // An error happened.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        alert("Error Code: " + errorCode + "\n" + errorMessage);
+  });
+        
+}
 
   export function AddFavorite(favorite) {
     var user = firebase.auth().currentUser;
@@ -264,7 +322,7 @@ export function AddFriend(addFriendText,currentComponent, myEmail) {
               currentComponent.setState({
                 User_Loaded: false,
               });
-
+              
               alert("Removed: " + video.snippet.title);
               
             });
@@ -273,68 +331,21 @@ export function AddFriend(addFriendText,currentComponent, myEmail) {
         }
           
   }
-
-  export function RemoveFriend(friend, currentComponent, myEmail) {
-    db.collection("users").where("User_Email", "==", friend).get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          var theirUID = doc.id;
-          var docRef = db.collection("users").doc(theirUID);
-          docRef.update({
-            User_Friends: firebase.firestore.FieldValue.arrayRemove(myEmail)
-          });
-          var user = firebase.auth().currentUser;
-          if(user) {
-            var docRef = db.collection("users").doc(user.uid);
-            docRef.update({
-                User_Friends: firebase.firestore.FieldValue.arrayRemove(friend)
-            });
-          }
-          currentComponent.setState({
-            User_Loaded: false,
-          });
-          alert(friend + " has been removed.");
-         
-        });
-    }).catch(function(error) {
-          // An error happened.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          alert("Error Code: " + errorCode + "\n" + errorMessage);
-    });
-          
-  }
-
-
-
-
-
-//output into a list?
+  //not working
 export function DisplayFriends() {
   var user = firebase.auth().currentUser;
   if(user) {
     var docRef = db.collection("users").doc(user.uid);
     docRef.get().then( function(doc) {
       if(doc && doc.exists) {
-        //console.log(doc);
-        //figure out friends list 
-        //construct a table and have it return that when called?
         const data = doc.data();
-        for(var i = 0; i < data.User_Friends.length; ++i) {
-          // return <div className='ui middle aligned divided list'>{data.User_Friends[i]}</div>;
-          // *** DOESNT DISPLAY ONTO BROWSWER ..yet***
-          console.log(data.User_Friends[i]);
-        }
-        // document.getElementById("test").innerHTML(data.User_Friends);
+        console.log(data.User_FriendsCnt);
+        console.log("Hello");
+        return data.User_FriendsCnt;
+        
       }
     });
   }
-
-  // for(var i = 0; i < data.User_FriendsCnt; ++i) {
-  //   if(", ") {
-  //     return <br></br>
-  //   }
-  //   return <p></p>
-  // }
 }
 
 //-------------Socket Functions--------------
@@ -345,7 +356,7 @@ export function getVideo(currentComponent) {
 }
 
 export function getList(currentComponent) {
-  socket.on('getListClient', function(data) {
+  socket.on('changeListClient', function(data) {
     currentComponent.setState ({videos: data})
   });
 }

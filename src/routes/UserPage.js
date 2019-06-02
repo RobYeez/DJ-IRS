@@ -49,7 +49,6 @@ export default class UserPage extends React.Component {
     clearInterval(this.timerID);
   }
 
-
   UpdateUserData() {
     var user = GetUser();
 
@@ -77,6 +76,10 @@ export default class UserPage extends React.Component {
     });
   }
 
+  DisplayFriends() {
+    DisplayFriends();
+  }
+
   handleLogout(){
     Logout(this.props);
   }
@@ -102,7 +105,10 @@ export default class UserPage extends React.Component {
                 </div>
             </Form.Group>
             
-            <div id="friends"> Friends
+            {/* <div id="friends"> Friends */}
+            <div id="friends"> Friends: {this.state.User_FriendsCnt}
+            {/* ^^ with hard refresh it is fine ^^ */}
+            {/* <div id="friends"> Friends: {this.DisplayFriends} */}
               <ul>
                 <Friendist friends={this.state.User_Friends} currentComponent={this} myEmail={this.state.User_Email} ></Friendist>
               </ul>
@@ -117,11 +123,6 @@ export default class UserPage extends React.Component {
     );
   }
 
-
-
-
-
-
   LoggedOutPage() {
     return (
       <div>
@@ -134,7 +135,6 @@ export default class UserPage extends React.Component {
   }
   
   render() {
-      
     if (this.state.User) {
     // User is signed in.
         return this.LoggedInPage();
