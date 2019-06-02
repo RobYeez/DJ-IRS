@@ -9,9 +9,10 @@ import {FavList} from '../User/FavList';
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
 import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite, getPP} from "../User/UserFunctions.js"
 import Navbarin from '../components/Navbarin.js';
-import {Container, Row, Col, Button, ButtonToolbar} from 'react-bootstrap'
+import {Container, Row, Col, Button, ButtonToolbar, Dropdown, ButtonGroup} from 'react-bootstrap'
 import openSocket from 'socket.io-client';
 import Duration from "../searchFunction/Duration.js"
+import Seeker from "../searchFunction/Seek.js"
 const socket = openSocket('http://localhost:4001');
 
 export default class Room extends React.Component {
@@ -39,7 +40,7 @@ export default class Room extends React.Component {
             playing: true,
             controls: true,
             light: false,
-            volume: 0.8,
+            volume: 1.0,
             muted: false,
             played: 0,
             loaded: 0,
@@ -205,6 +206,10 @@ export default class Room extends React.Component {
       this.setState({ playing: false })
     } 
     
+    setVolume = e => {
+      this.setState({ volume: parseFloat(e.target.value) })
+    }
+
     onSeekMouseDown = e => {
       this.setState({ seeking: true })
     }
@@ -216,6 +221,11 @@ export default class Room extends React.Component {
     onSeekMouseUp = e => {
       this.setState({ seeking: false })
       this.player.seekTo(parseFloat(e.target.value))
+    }
+
+    seekTo = (fraction, type) => {
+      if (!this.player) return null
+      this.player.seekTo(fraction, type)
     }
 
     onProgress = state => {
@@ -253,7 +263,7 @@ export default class Room extends React.Component {
     }
 
     LoggedInPage() {
-      const { playing, played, controls, duration } = this.state
+      const { playing, played, controls, duration, volume } = this.state
       var videoSrc = "#";
       if (this.state.selectedVideo) {
         videoSrc = `https://www.youtube.com/embed/${this.state.selectedVideo.id.videoId}`;
@@ -276,7 +286,7 @@ export default class Room extends React.Component {
                     </div>
                     <div className="ui embed">
                       <ReactPlayer onPlay={this.onPlay} onPause={this.onPause} onSeek={e => console.log('onSeek', e)} onProgress={this.onProgress} onDuration={this.onDuration} 
-                      width='300px' height='200px' controls={controls} url={videoSrc} playing={playing} />
+                      width='300px' height='200px' controls={controls} url={videoSrc} playing={playing} volume={volume} />
                     </div>
                   </Col>
                   <Col>
@@ -284,21 +294,38 @@ export default class Room extends React.Component {
                       <Button variant="dark" onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</Button>
                     </ButtonToolbar>
                     <br />
-                    <input
-                      type='range' min={0} max={1} step='any'
-                      value={played}
-                      onMouseDown={this.onSeekMouseDown}
-                      onChange={this.onSeekChange}
-                      onMouseUp={this.onSeekMouseUp}
-                      width="1000px"
+                    <input type='range' min={0} max={1} step='any'
+                      value={played} onMouseDown={this.onSeekMouseDown} onChange={this.onSeekChange} onMouseUp={this.onSeekMouseUp}
                     />
                     <br /><Duration seconds={duration * played} /> / <Duration seconds={duration} />
+                    <br />
+                    <br />
+                    <p>Volume</p>
+                    <input type='range' min={0} max={1} step='any' 
+                      value={volume} onChange={this.setVolume} 
+                    />
                   </Col>
                   </Row>
-                  <div id="favdiv" >
-                    <Button variant="primary" type="submit" name="button" onClick={this.handleAddToFavorites}>Favorite</Button>
-                    <br/><br/><br/>
-                  </div>
+                  <br />
+                  <Row>
+                    <Col>
+                    <ButtonGroup>
+                      <div id="favdiv" >
+                        <Button variant="primary" type="submit" name="button" onClick={this.handleAddToFavorites}>Favorite</Button>
+                      </div>
+                      &nbsp;
+                      <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">Share</Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          <Dropdown.Item href="#/action-1">Robert</Dropdown.Item>
+                          <Dropdown.Item href="#/action-2">Dylan</Dropdown.Item>
+                          <Dropdown.Item href="#/action-3">Stephanie</Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                      </ButtonGroup>
+                      <br /><br />
+                    </Col>
+                  </Row>
                   <Row>
                     <Col>
                       <h4>Search Results</h4>
