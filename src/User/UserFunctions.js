@@ -345,8 +345,14 @@ export function getVideo(currentComponent) {
 }
 
 export function getList(currentComponent) {
-  socket.on('changeListClient', function(data) {
+  socket.on('getListClient', function(data) {
     currentComponent.setState ({videos: data})
+  });
+}
+
+export function getPP(currentComponent) {
+  socket.on('changePPClient', function(data) {
+    currentComponent.setState ({playing: data})
   });
 }
 
