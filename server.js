@@ -48,70 +48,18 @@ io.sockets.on('connection', function(socket) {
     //sends video list to all clients
 	socket.on('display list', function(data) {
 		console.log("disp done")
-		io.sockets.in("Test").emit('changeListClient', data)
+		io.sockets.in("Test").emit('getListClient', data)
 	});
+
+	socket.on('changePP', function(data) {
+		console.log("PP changed")
+		io.sockets.in("Test").emit('changePPClient', data)
+	})
 
 	socket.on('change source', function(data){
 		var source = data
 		io.sockets.in("Test").emit('changeSourceClient', source);
 	});
-	// socket.on('play other', function(data) {
-	// 	var roomnum = data.room
-	// 	socket.broadcast.to("room-" + roomnum).emit('justPlay');
-	// });
-	// socket.on('pause other', function(data) {
-	// 	var roomnum = data.room
-	// 	socket.broadcast.to("room-" + roomnum).emit('justPause');
-	// });
-	// socket.on('seek other', function(data) {
-	// 	var roomnum = data.room
-	// 	var currTime = data.time
-	// 	socket.broadcast.to("room-" + roomnum).emit('justSeek', {
-	// 		time: currTime
-	// 	});
-	// });
-
-	//sync
-	socket.on('sync video', function(data) {
-		if(io.sockets.adapter.rooms['rooms-' + socket.roomnum] !== undefined) {
-			var roomnum = data.room
-			var currTime = data.time
-			var state = data.state
-			var videoId = data.videoId
-			var playerId = io.sockets.adapter.rooms['room-' + roomnum].currPlayer
-
-			io.sockets.in('room-' + roomnum).emit('syncVideoClient', {
-				time: currTime,
-				state: state,
-				videoId: videoId,
-				playerId: playerId
-			})
-		}
-	});
-
-	//change video
-	socket.on('change video', function(data) {
-		if(io.sockets.adapter.rooms['rooms-' + socket.roomnum] !== undefined){
-			var roomnum = data.room
-			var time = data.time
-			var videoId = data.videoId
-			var host = io.sockets.adapter.rooms['rooms-' + socket.roomnum].host
-
-			io.sockets.adapter.rooms['rooms-' + socket.roomnum].currVideo.yt = videoId
-
-			io.sockets.in("room-" + roomnum).emit('changeVideoClient', {
-				videoId: videoId
-			})
-		}
-	});
-
-	// //new user
-	// socket.on('new user', function(data, callback)){
-	// 	callback(true);
-	// 	var encodedUser = data.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-	// 	socket.username = encodedUser;
-	// 	users.push(socket.username);
-	// }
 
 	function updateRoomUsers(roomnum) {
 		if(io.sockets.adapter.rooms['room-' + socket.roomnum] !== undefined){
