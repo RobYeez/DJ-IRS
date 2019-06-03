@@ -19,6 +19,9 @@
   animation-duration: 1s;
   animation-iteration-count: infinite;
 }
+.paused.playing .bar {
+  animation-iteration-count: 1;
+}
 .bar1 {
   animation-delay: 0.5s;
 }

@@ -263,6 +263,11 @@ export default class Room extends React.Component {
       this.setState({ duration })
     }
 
+    togglePlayer = () => {
+      var toggleP = document.getElementById("music");
+      toggleP.classList.toggle("paused");
+    }
+
     LoggedInPage() {
       const { playing, played, controls, duration, volume } = this.state
       var videoSrc = "#";
@@ -304,7 +309,7 @@ export default class Room extends React.Component {
                   </Col>
                   <Col>
                     <ButtonToolbar>
-                      <Button variant="dark" onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</Button>
+                      <Button variant="dark" onClick={() => {this.playPause(); this.togglePlayer()}}>{playing ? 'Pause' : 'Play'}</Button>
                     </ButtonToolbar>
                     <br />
                     <input type='range' min={0} max={1} step='any'
