@@ -66,6 +66,11 @@ io.sockets.on('connection', function(socket) {
 		io.sockets.in("Test").emit('updateQueueClient', data);
 	})
 
+	socket.on('update volume', function(data) {
+		console.log("volume updated")
+		io.sockets.in("Test").emit('updateVolumeClient', data);
+	})
+
 	// function updateRoomUsers(roomnum) {
 	// 	if(io.sockets.adapter.rooms['room-' + socket.roomnum] !== undefined){
 	// 		var roomUsers = io.sockets.adapter.rooms['room-' + socket.roomnum].users

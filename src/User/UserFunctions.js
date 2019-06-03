@@ -404,3 +404,9 @@ export function getQueue(currentComponent) {
     currentComponent.setState({queueList: data})
   });
 }
+
+export function getVolume(currentComponent) {
+  socket.on('updateVolumeClient', function(data) {
+    currentComponent.setState({volume: data})
+  })
+}

@@ -8,7 +8,7 @@ import VideoQueue from '../searchFunction/VideoQueue';
 import {HistList} from '../searchFunction/HistList';
 import {FavList} from '../User/FavList';
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
-import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite, getPP, getWatchHist, getQueue} from "../User/UserFunctions.js"
+import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite, getPP, getWatchHist, getQueue, getVolume} from "../User/UserFunctions.js"
 import Navbarin from '../components/Navbarin.js';
 import {Container, Row, Col, Button, ButtonToolbar, Dropdown, ButtonGroup} from 'react-bootstrap'
 import openSocket from 'socket.io-client';
@@ -81,7 +81,17 @@ export default class Room extends React.Component {
         () => this.update(),
         100
       );
+      this.timerID = setInterval(
+        () => this.updateVolume(),
+        1500
+      )
     }
+
+    // componentDidUpdate(prevProps){
+    //   if(this.props.data !== prevProps.data){
+    //     getVolume(this);
+    //   }
+    // }
 
     componentWillUnmount() {
       clearInterval(this.timerID);
@@ -98,7 +108,13 @@ export default class Room extends React.Component {
     }
 
     //Update various items on the room page
+    //Called every 100ms, waits for socket emits
     update() { getList(this); getVideo(this); getPP(this); getWatchHist(this); getQueue(this); this.forceUpdate(); }
+
+    updateVolume() {
+      getVolume(this);
+      this.forceUpdate();
+    }
 
     handleChange(event) {
       const target = event.target;
@@ -191,6 +207,7 @@ export default class Room extends React.Component {
     } 
     
     setVolume = e => {
+      socket.emit('update volume', parseFloat(e.target.value))
       this.setState({ volume: parseFloat(e.target.value) })
     }
 
