@@ -381,10 +381,7 @@ export function SendFriend(friend, myEmail, video) {
         docRef.update({
           User_Recommendations: firebase.firestore.FieldValue.arrayUnion(myEmail + " recommends " + video.snippet.title)
         });
-        //decrement
         alert("Recommendation has been sent to " + friend);
-        //force refresh
-       window.location.reload();
       });
   }).catch(function(error) {
         // An error happened.
