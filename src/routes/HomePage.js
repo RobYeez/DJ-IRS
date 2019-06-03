@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import {GetUserData, GetUser, SendTokenToServer} from "../User/UserFunctions.js"
+import {GetUserData, GetUser, Logout, SendTokenToServer} from "../User/UserFunctions.js"
 import homebkgrnd from '../images/homebkgrnd.jpg';
 import firebase from "../firebase.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -28,6 +28,7 @@ export default class HomePage extends React.Component {
     this.LoggedInPage = this.LoggedInPage.bind(this);
     this.LoggedOutPage = this.LoggedOutPage.bind(this);
     this.UpdateUserData = this.UpdateUserData.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
 
   }   
 
@@ -66,10 +67,14 @@ export default class HomePage extends React.Component {
     });
   }
 
+  handleLogout(){
+    Logout(this.props);
+  }
+
   LoggedInPage() {
     return (
       <div>
-        <Navbarin />
+        <Navbarin handleLogout={this.handleLogout}/>
         <br />
         <div align='center'><h1>DJ-IRS</h1></div>
         <div align='center'><h4>Find new music. Make new friends.</h4></div>
