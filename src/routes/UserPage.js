@@ -6,9 +6,9 @@ import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
 import {Form} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
-import {Container, Col} from 'react-bootstrap';
+import {Container, Col, Row} from 'react-bootstrap';
 import {Friendist} from '../User/FriendList.js';
-import {ListRecs} from '../User/ListRecs.js'
+import {ListRecs} from '../User/ListRecs.js';
 
 export default class UserPage extends React.Component {
   constructor(props) {
@@ -89,40 +89,41 @@ export default class UserPage extends React.Component {
   LoggedInPage() {
     return (
       <div>
-        <Navbarin />
+        <Navbarin handleLogout={this.handleLogout}/>
         <div id="loggedInDiv">
         <br/>
         <Container>
-            <h1>User Page</h1>
             <br/>
-            <div>
+            <h1>
               Hello {this.state.User_Firstname}!
-            </div>
+            </h1>
             <br/>
-            <Form.Group controlId="addfriend">
-                <Form.Label>Add Friend</Form.Label>
-                <Form.Control name="addFriendText" type="email" value={this.state.addFriendText} onChange={this.handleChange} placeholder="Add Friend..." />
-                <div>
-                  <Button name="addbtn" onClick={this.handleAdd}>Add</Button>
+            <Row>
+              <Col>
+                <Form.Group controlId="addfriend">
+                    <Form.Label><h3>Add Friend</h3></Form.Label>
+                    <Form.Control style={{width: "40%"}} name="addFriendText" type="email" value={this.state.addFriendText} onChange={this.handleChange} placeholder="Add Friend..." />
+                    <br/>
+                    <div>
+                      <Button name="addbtn" onClick={this.handleAdd}>Add</Button>
+                    </div>
+                </Form.Group>
+              </Col>
+              
+              <Col>
+                <div id="friends"><h3>Friends: </h3>
+                  <ul>
+                    <Friendist friends={this.state.User_Friends} currentComponent={this} myEmail={this.state.User_Email} ></Friendist>
+                  </ul>
                 </div>
-            </Form.Group>
-            
-            {/* <div id="friends"> Friends */}
-            {/* <div id="friends"> Friends: {this.state.User_FriendsCnt} */}
-            {/* ^^ with hard refresh it is fine ^^ */}
-            <div id="friends"> Friends: {/*<Button name="count" onClick={this.DisplayFriends}>Count</Button>*/}          
-              <ul>
-                <Friendist friends={this.state.User_Friends} currentComponent={this} myEmail={this.state.User_Email} ></Friendist>
-              </ul>
-            </div>
-            <br/>
+              </Col>
+            </Row>
             <div>
               <Button name="button" onClick={this.handleLogout}>Logout</Button>
             </div>
             <Col>
               Friend Recommendations:
               <ListRecs recs={this.state.User_Recommendations}> </ListRecs>
-
             </Col>
         </Container>
         </div>
@@ -133,7 +134,7 @@ export default class UserPage extends React.Component {
   LoggedOutPage() {
     return (
       <div>
-        <Navbarin />
+        <Navbarout />
         <div id="loggedOutDiv">
           <br/>
         </div>
