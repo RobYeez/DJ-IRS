@@ -4,10 +4,11 @@ import {BrowserRouter as  Router, Route, Link, withRouter} from "react-router-do
 import {DisplayFriends, AddFriend, Logout, GetUserData, GetUser, SendTokenToServer} from "../User/UserFunctions.js"
 import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
-import {Form} from 'react-bootstrap'
-import {Button} from 'react-bootstrap'
-import {Container} from 'react-bootstrap'
+import {Form} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
+import {Container, Col} from 'react-bootstrap';
 import { Friendist } from '../User/FriendList.js';
+
 
 export default class UserPage extends React.Component {
   constructor(props) {
@@ -108,7 +109,7 @@ export default class UserPage extends React.Component {
             {/* <div id="friends"> Friends */}
             {/* <div id="friends"> Friends: {this.state.User_FriendsCnt} */}
             {/* ^^ with hard refresh it is fine ^^ */}
-            <div id="friends"> Friends: {/*<Button name="count" onClick={this.DisplayFriends}>Count</Button>*/}
+            <div id="friends"> Friends: {/*<Button name="count" onClick={this.DisplayFriends}>Count</Button>*/}          
               <ul>
                 <Friendist friends={this.state.User_Friends} currentComponent={this} myEmail={this.state.User_Email} ></Friendist>
               </ul>
@@ -117,6 +118,11 @@ export default class UserPage extends React.Component {
             <div>
               <Button name="button" onClick={this.handleLogout}>Logout</Button>
             </div>
+            <Col>
+              Friend Recommendations:
+              
+
+            </Col>
         </Container>
         </div>
       </div>

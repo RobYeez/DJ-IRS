@@ -3,14 +3,13 @@ import {Row} from 'react-bootstrap';
 import {Col} from 'react-bootstrap';
 // import {Container, Row, Col, Button, ButtonToolbar, Dropdown, ButtonGroup} from 'react-bootstrap'
 import {Dropdown} from 'react-bootstrap';
-import sendFriend from './UserFunctions.js';
+import FriendButtonSend from './FriendButtonSend.js';
 
-export const FriendListDrop = ({friends}) => {
+    export const FriendListDrop = ({friends, myEmail}) => {
     const renderedFriends =  friends.map((friend) => {
         return (
             <Row>
-                <Dropdown.Item>{friend}</Dropdown.Item>
-
+                <Dropdown.Item>{friend}{(new FriendButtonSend(friend, myEmail)).render()} </Dropdown.Item>
             </Row>
             
         )

@@ -112,6 +112,8 @@ export function GetUserData(currentComponent) {
             User_Token: data.User_Token,
             User_Favorites: data.User_Favorites,
             User_FriendsCnt: data.User_FriendsCnt,
+            User_Recommendations: data.User_Recommendations,
+
           });
         }
       }).catch(function(error) {
@@ -134,6 +136,7 @@ export function GetUserData(currentComponent) {
         User_Token: "",
         User_Favorites: [],
         User_FriendsCnt: 0,
+        User_Recommendations: [],
       });
     }
     
@@ -150,6 +153,7 @@ export function CreateUser(firstname, lastname, email, password, props) {
             User_Token: "",
             User_Favorites: [],
             User_FriendsCnt: 0,
+            User_Recommendations: [],
           });
           
         }).then( function() {
@@ -368,9 +372,29 @@ function friendCnt() {
   }
 }
 
-export function sendFriend() {
-  console.log('hello Freinds');
+
+export function SendFriend(friend, myEmail) {
+  db.collection("users").where("User_Email", "==", friend).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        var theirUID = doc.id;
+        var docRef = db.collection("users").doc(theirUID);
+        docRef.update({
+          User_Recommendations: firebase.firestore.FieldValue.arrayUnion(myEmail + " recommends " + "LINK")
+        });
+        //decrement
+        alert("Recommendation has been sent to " + friend);
+        //force refresh
+       window.location.reload();
+      });
+  }).catch(function(error) {
+        // An error happened.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        alert("Error Code: " + errorCode + "\n" + errorMessage);
+  });
+        
 }
+
 
 
 
