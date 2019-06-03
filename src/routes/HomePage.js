@@ -6,7 +6,6 @@ import firebase from "../firebase.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbarin from '../components/Navbarin.js';
 import Navbarout from '../components/Navbarout.js';
-import '../StyleSheets/homepage.css';
 
 //Landing page
 export default class HomePage extends React.Component {
@@ -76,17 +75,7 @@ export default class HomePage extends React.Component {
         <div align='center'><h4>Find new music. Make new friends.</h4></div>
         <br />
         <div align='center'><img src={homebkgrnd} width='500' height='300'/></div>  */}
-          {/* Test */}
-            <div class="now playing" id="music">
-              <span class="bar n1"></span>
-              <span class="bar n2"></span>
-              <span class="bar n3"></span>
-              <span class="bar n4"></span>
-              <span class="bar n5"></span>
-              <span class="bar n6"></span>
-              <span class="bar n7"></span>
-              <span class="bar n8"></span>
-            </div>
+         
       </div>
     );
   }
