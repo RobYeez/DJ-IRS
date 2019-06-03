@@ -336,9 +336,6 @@ export default class Room extends React.Component {
                         <Dropdown.Toggle variant="success" id="dropdown-basic">Share</Dropdown.Toggle>
                         <Dropdown.Menu>
                           <FriendListDrop friends={this.state.User_Friends} myEmail = {this.state.User_Email}></FriendListDrop>
-                          {/* <Dropdown.Item href="#/action-1">Robert</Dropdown.Item>
-                          <Dropdown.Item href="#/action-2">Dylan</Dropdown.Item>
-                          <Dropdown.Item href="#/action-3">Stephanie</Dropdown.Item> */}
                         </Dropdown.Menu>
                       </Dropdown>
                       </ButtonGroup>

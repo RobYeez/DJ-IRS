@@ -7,8 +7,8 @@ import Navbarout from '../components/Navbarout.js';
 import {Form} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 import {Container, Col} from 'react-bootstrap';
-import { Friendist } from '../User/FriendList.js';
-
+import {Friendist} from '../User/FriendList.js';
+import {ListRecs} from '../User/ListRecs.js'
 
 export default class UserPage extends React.Component {
   constructor(props) {
@@ -23,6 +23,7 @@ export default class UserPage extends React.Component {
       User_Token: "",
       User_Favorites: [],
       User_FriendsCnt: 0,
+      User_Recommendations: [],
 
       addFriendText: "",
       
@@ -120,7 +121,7 @@ export default class UserPage extends React.Component {
             </div>
             <Col>
               Friend Recommendations:
-              
+              <ListRecs recs={this.state.User_Recommendations}> </ListRecs>
 
             </Col>
         </Container>

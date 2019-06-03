@@ -113,7 +113,7 @@ export function GetUserData(currentComponent) {
             User_Favorites: data.User_Favorites,
             User_FriendsCnt: data.User_FriendsCnt,
             User_Recommendations: data.User_Recommendations,
-
+              
           });
         }
       }).catch(function(error) {
@@ -246,7 +246,7 @@ export function AddFriend(addFriendText,currentComponent, myEmail) {
         //force refresh
         window.location.reload();
       });
-      if (n == 0) {
+      if (n === 0) {
         alert("Friend not added\n" + "Email: " + addFriendText + " is not recognized.");
       }
   }).catch(function(error) {
@@ -395,7 +395,18 @@ export function SendFriend(friend, myEmail) {
         
 }
 
-
+export function RemoveRec(recs) {
+  var user = firebase.auth().currentUser;
+        if(user) {
+            var docRef = db.collection("users").doc(user.uid); 
+            docRef.update({
+              User_Recommendations: firebase.firestore.FieldValue.arrayRemove(recs)
+            })
+            alert("Removed receommendation");
+            window.location.reload();
+            };
+}
+  
 
 
 //-------------Socket Functions--------------
