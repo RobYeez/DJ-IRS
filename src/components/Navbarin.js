@@ -2,7 +2,7 @@ import React from 'react'
 import {Navbar} from 'react-bootstrap'
 import {Nav} from 'react-bootstrap'
 
-export default function Navibarout() {
+const Navbarin = ({handleLogout}) => {
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -13,8 +13,12 @@ export default function Navibarout() {
       <Nav.Link href="/userpage">User</Nav.Link>
       <Nav.Link href="/room">Room</Nav.Link>
     </Nav>
+    <Nav>
+      <Nav.Link><div onClick={handleLogout}>Logout</div></Nav.Link>
+    </Nav>
   </Navbar.Collapse>
 </Navbar>
     </div>
   )
-}
+};
+export default Navbarin;

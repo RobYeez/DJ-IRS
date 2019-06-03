@@ -10,11 +10,14 @@ import {FavList} from '../User/FavList';
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
 import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite, getPP, getWatchHist, getQueue, getVolume} from "../User/UserFunctions.js"
 import Navbarin from '../components/Navbarin.js';
+import Navbarout from '../components/Navbarout.js';
 import {Container, Row, Col, Button, ButtonToolbar, Dropdown, ButtonGroup} from 'react-bootstrap'
 import openSocket from 'socket.io-client';
 import Duration from "../searchFunction/Duration.js"
 import '../StyleSheets/music.css'
 import { FriendListDrop } from '../User/FriendListDrop.js';
+import {Logout} from "../User/UserFunctions.js"
+
 //import Seeker from "../searchFunction/Seek.js"
 const socket = openSocket('http://localhost:4001');
 
@@ -59,6 +62,7 @@ export default class Room extends React.Component {
         this.LoggedInPage = this.LoggedInPage.bind(this);
         this.LoggedOutPage = this.LoggedOutPage.bind(this);
         this.UpdateUserData = this.UpdateUserData.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
         this.onEnded = this.onEnded.bind(this);
     }
 
@@ -268,6 +272,10 @@ export default class Room extends React.Component {
       toggleP.classList.toggle("paused");
     }
 
+    handleLogout(){
+      Logout(this.props);
+    }
+
     LoggedInPage() {
       const { playing, played, controls, duration, volume } = this.state
       var videoSrc = "#";
@@ -276,7 +284,7 @@ export default class Room extends React.Component {
       }
       return (
         <div>
-          <Navbarin />
+          <Navbarin handleLogout={this.handleLogout}/>
           <div id="loggedOutDiv">
             <br/>
             <Container>
@@ -372,7 +380,7 @@ export default class Room extends React.Component {
     LoggedOutPage() {
         return (
           <div>
-            <Navbarin />
+            <Navbarout />
             <div id="loggedOutDiv">
               <br/>
               <Container>
