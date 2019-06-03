@@ -382,7 +382,7 @@ export function getVideo(currentComponent) {
 }
 
 export function getList(currentComponent) {
-  socket.on('changeListClient', function(data) {
+  socket.on('getListClient', function(data) {
     currentComponent.setState ({videos: data})
   });
 }
@@ -393,8 +393,14 @@ export function getPP(currentComponent) {
   });
 }
 
-export function getTerm(currentComponent){
-  socket.on('changeTermClient', function(data) {
-    currentComponent.setState({})
-  })
+export function getWatchHist(currentComponent) {
+  socket.on('updateHistoryClient', function(data) {
+    currentComponent.setState({watchHist: data})
+  });
+}
+
+export function getQueue(currentComponent) {
+  socket.on('updateQueueClient', function(data) {
+    currentComponent.setState({queueList: data})
+  });
 }

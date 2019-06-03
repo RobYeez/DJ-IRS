@@ -8,18 +8,14 @@ import VideoQueue from '../searchFunction/VideoQueue';
 import {HistList} from '../searchFunction/HistList';
 import {FavList} from '../User/FavList';
 import {BrowserRouter as  Router, Route, Link} from "react-router-dom";
-import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite, getPP} from "../User/UserFunctions.js"
+import {GetUserData, GetUser, SendTokenToServer, getVideo, getList, AddFavorite, getPP, getWatchHist, getQueue} from "../User/UserFunctions.js"
 import Navbarin from '../components/Navbarin.js';
 import {Container, Row, Col, Button, ButtonToolbar, Dropdown, ButtonGroup} from 'react-bootstrap'
 import openSocket from 'socket.io-client';
 import Duration from "../searchFunction/Duration.js"
-<<<<<<< HEAD
 import '../StyleSheets/music.css'
-=======
 import { FriendListDrop } from '../User/FriendListDrop.js';
-
->>>>>>> 89a09db72a5ae0b7c70448bd78512623f66fe5b4
-// import Seeker from "../searchFunction/Seek.js"
+//import Seeker from "../searchFunction/Seek.js"
 const socket = openSocket('http://localhost:4001');
 
 export default class Room extends React.Component {
@@ -82,19 +78,11 @@ export default class Room extends React.Component {
         100
       ); //updates every 100 ms
       this.timerID = setInterval(
-        () => this.updateVideo(),
-        100
-      );
-      this.timerID = setInterval(
-        () => this.updateList(),
-        100
-      );
-      this.timerID = setInterval(
-        () => this.updatePP(),
+        () => this.update(),
         100
       );
     }
-  
+
     componentWillUnmount() {
       clearInterval(this.timerID);
     }
@@ -109,21 +97,8 @@ export default class Room extends React.Component {
       }
     }
 
-    updateList() { 
-      getList(this);
-      
-      this.forceUpdate(); 
-    }
-
-    updateVideo() {
-      getVideo(this);
-      this.forceUpdate();
-    }
-
-    updatePP() {
-      getPP(this);
-      this.forceUpdate();
-    }
+    //Update various items on the room page
+    update() { getList(this); getVideo(this); getPP(this); getWatchHist(this); getQueue(this); this.forceUpdate(); }
 
     handleChange(event) {
       const target = event.target;
@@ -162,6 +137,7 @@ export default class Room extends React.Component {
         newArray = newArray.slice(1);
       }
       newArray.push(video)
+      socket.emit('update history', newArray)
       this.setState({
         watchHist: newArray
       })
@@ -181,6 +157,7 @@ export default class Room extends React.Component {
       }
       qArray.push(video)
 
+      socket.emit("update queue", qArray)
       this.setState({
         queueList: qArray
       })

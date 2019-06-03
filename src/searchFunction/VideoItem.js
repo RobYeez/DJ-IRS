@@ -1,7 +1,5 @@
 import React from 'react';
 import '../StyleSheets/video.css';
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:4001');
 
 //socket.emit in the onclick    
 function updateVid(video, handleVideoSelect){

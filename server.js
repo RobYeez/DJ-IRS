@@ -41,13 +41,13 @@ io.sockets.on('connection', function(socket) {
 	//------------------------Video Functions------------------------
 	//sends video to all clients
 	socket.on('get video', function(data) {
-		console.log("vid done")
+		//console.log("vid done")
 		io.sockets.in("Test").emit('getVideoClient', data);
 	});
 
     //sends video list to all clients
 	socket.on('display list', function(data) {
-		console.log("disp done")
+		//console.log("disp done")
 		io.sockets.in("Test").emit('getListClient', data)
 	});
 
@@ -56,17 +56,22 @@ io.sockets.on('connection', function(socket) {
 		io.sockets.in("Test").emit('changePPClient', data)
 	})
 
-	socket.on('change source', function(data){
-		var source = data
-		io.sockets.in("Test").emit('changeSourceClient', source);
+	socket.on('update history', function(data) {
+		console.log("history updated")
+		io.sockets.in("Test").emit('updateHistoryClient', data);
 	});
 
-	function updateRoomUsers(roomnum) {
-		if(io.sockets.adapter.rooms['room-' + socket.roomnum] !== undefined){
-			var roomUsers = io.sockets.adapter.rooms['room-' + socket.roomnum].users
-			io.sockets.in("room-" + roomnum).emit('get users', roomUsers)
-		}
-	}
+	socket.on('update queue', function(data) {
+		console.log("queue updated")
+		io.sockets.in("Test").emit('updateQueueClient', data);
+	})
+
+	// function updateRoomUsers(roomnum) {
+	// 	if(io.sockets.adapter.rooms['room-' + socket.roomnum] !== undefined){
+	// 		var roomUsers = io.sockets.adapter.rooms['room-' + socket.roomnum].users
+	// 		io.sockets.in("room-" + roomnum).emit('get users', roomUsers)
+	// 	}
+	// }
 })
 
 // server.listen(port); 
