@@ -106,9 +106,9 @@ export default class UserPage extends React.Component {
             </Form.Group>
             
             {/* <div id="friends"> Friends */}
-            <div id="friends"> Friends: {this.state.User_FriendsCnt}
+            {/* <div id="friends"> Friends: {this.state.User_FriendsCnt} */}
             {/* ^^ with hard refresh it is fine ^^ */}
-            {/* <div id="friends"> Friends: {this.DisplayFriends} */}
+            <div id="friends"> Friends: {/*<Button name="count" onClick={this.DisplayFriends}>Count</Button>*/}
               <ul>
                 <Friendist friends={this.state.User_Friends} currentComponent={this} myEmail={this.state.User_Email} ></Friendist>
               </ul>

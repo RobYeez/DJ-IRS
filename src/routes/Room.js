@@ -12,7 +12,9 @@ import Navbarin from '../components/Navbarin.js';
 import {Container, Row, Col, Button, ButtonToolbar, Dropdown, ButtonGroup} from 'react-bootstrap'
 import openSocket from 'socket.io-client';
 import Duration from "../searchFunction/Duration.js"
-import Seeker from "../searchFunction/Seek.js"
+import { FriendListDrop } from '../User/FriendListDrop.js';
+
+// import Seeker from "../searchFunction/Seek.js"
 const socket = openSocket('http://localhost:4001');
 
 export default class Room extends React.Component {
@@ -317,9 +319,10 @@ export default class Room extends React.Component {
                       <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">Share</Dropdown.Toggle>
                         <Dropdown.Menu>
-                          <Dropdown.Item href="#/action-1">Robert</Dropdown.Item>
+                          <FriendListDrop friends={this.state.User_Friends}></FriendListDrop>
+                          {/* <Dropdown.Item href="#/action-1">Robert</Dropdown.Item>
                           <Dropdown.Item href="#/action-2">Dylan</Dropdown.Item>
-                          <Dropdown.Item href="#/action-3">Stephanie</Dropdown.Item>
+                          <Dropdown.Item href="#/action-3">Stephanie</Dropdown.Item> */}
                         </Dropdown.Menu>
                       </Dropdown>
                       </ButtonGroup>

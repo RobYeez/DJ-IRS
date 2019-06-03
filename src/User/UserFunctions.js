@@ -1,5 +1,6 @@
 import firebase from "../firebase.js";
 import openSocket from 'socket.io-client';
+import React from 'react'
 const socket = openSocket('http://localhost:4001');
 
 var db = firebase.firestore();
@@ -340,13 +341,38 @@ export function DisplayFriends() {
       if(doc && doc.exists) {
         const data = doc.data();
         console.log(data.User_FriendsCnt);
-        console.log("Hello");
-        return data.User_FriendsCnt;
+        alert("testing");
+        // {data.User_FriendsCnt};
+        //return data.User_FriendsCnt;
+        // var buttonValue = document.getElementById("count").value; //stores the button value
+        // return document.getElementById("myDiv").dangerouslySetInnerHTML = data.User_FriendsCnt; // displays the value as a plain text inside "myDiv" - removing the button input entirely 
         
+        // return <div dangerouslySetInnerHTML = "Hello World" /> //{data.User_FriendsCnt} />
+        return <div dangerouslySetInnerHTML= {friendCnt()} />;
       }
     });
   }
 }
+
+function friendCnt() {
+  var user = firebase.auth().currentUser;
+  if(user) {
+    var docRef = db.collection("users").doc(user.uid);
+    docRef.get().then( function(doc) {
+      if(doc && doc.exists) {
+        const data = doc.data();
+        console.log("Called friendCnt()")
+      return {__html: data.User_FriendsCnt};
+      }
+    })
+  }
+}
+
+export function sendFriend() {
+  console.log('hello Freinds');
+}
+
+
 
 //-------------Socket Functions--------------
 export function getVideo(currentComponent) {
