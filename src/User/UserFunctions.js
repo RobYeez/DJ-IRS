@@ -373,13 +373,13 @@ function friendCnt() {
 }
 
 
-export function SendFriend(friend, myEmail) {
+export function SendFriend(friend, myEmail, video) {
   db.collection("users").where("User_Email", "==", friend).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         var theirUID = doc.id;
         var docRef = db.collection("users").doc(theirUID);
         docRef.update({
-          User_Recommendations: firebase.firestore.FieldValue.arrayUnion(myEmail + " recommends " + "LINK")
+          User_Recommendations: firebase.firestore.FieldValue.arrayUnion(myEmail + " recommends " + video.snippet.title)
         });
         //decrement
         alert("Recommendation has been sent to " + friend);

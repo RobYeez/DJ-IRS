@@ -3,10 +3,11 @@ import {Button} from 'react-bootstrap';
 import {SendFriend} from "./UserFunctions.js";
 
 export default class FriendButtonSend {
-    constructor(friend, myEmail) {
+    constructor(friend, myEmail, video) {
         this.state = {
             friend: friend,
             myEmail: myEmail,
+            video: video
         }
         this.handleSendFromFriends = this.handleSendFromFriends.bind(this);
     }
@@ -20,7 +21,7 @@ export default class FriendButtonSend {
     }
 
     handleSendFromFriends() {
-        SendFriend(this.state.friend, this.state.myEmail);
+        SendFriend(this.state.friend, this.state.myEmail, this.state.video);
     }
 
     

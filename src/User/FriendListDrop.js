@@ -5,11 +5,11 @@ import {Col} from 'react-bootstrap';
 import {Dropdown} from 'react-bootstrap';
 import FriendButtonSend from './FriendButtonSend.js';
 
-    export const FriendListDrop = ({friends, myEmail}) => {
+    export const FriendListDrop = ({friends, myEmail, video}) => {
     const renderedFriends =  friends.map((friend) => {
         return (
             <Row>
-                <Dropdown.Item>{friend}{(new FriendButtonSend(friend, myEmail)).render()} </Dropdown.Item>
+                <Dropdown.Item>{friend}{(new FriendButtonSend(friend, myEmail, video)).render()} </Dropdown.Item>
             </Row>
             
         )

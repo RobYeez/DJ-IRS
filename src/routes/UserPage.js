@@ -118,11 +118,8 @@ export default class UserPage extends React.Component {
                 </div>
               </Col>
             </Row>
-            <div>
-              <Button name="button" onClick={this.handleLogout}>Logout</Button>
-            </div>
             <Col>
-              Friend Recommendations:
+              <h3>Friend Recommendations:</h3>
               <ListRecs recs={this.state.User_Recommendations}> </ListRecs>
             </Col>
         </Container>
