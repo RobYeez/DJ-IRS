@@ -2,6 +2,7 @@ import React from 'react';
 import SearchBar from '../searchFunction/Searchbar';
 import youtube from '../apis/youtube';
 import ReactPlayer from 'react-player'
+import VideoDetail from '../searchFunction/VideoDetails';
 import VideoList from '../searchFunction/VideoList';
 import VideoQueue from '../searchFunction/VideoQueue';
 import {HistList} from '../searchFunction/HistList';
@@ -12,7 +13,8 @@ import Navbarin from '../components/Navbarin.js';
 import {Container, Row, Col, Button, ButtonToolbar, Dropdown, ButtonGroup} from 'react-bootstrap'
 import openSocket from 'socket.io-client';
 import Duration from "../searchFunction/Duration.js"
-import Seeker from "../searchFunction/Seek.js"
+import '../StyleSheets/music.css'
+// import Seeker from "../searchFunction/Seek.js"
 const socket = openSocket('http://localhost:4001');
 
 export default class Room extends React.Component {
@@ -279,14 +281,26 @@ export default class Room extends React.Component {
               </div>
               <SearchBar handleFormSubmit={this.handleSubmit}/>
                   <Row>
+                    <Col>
+                      <VideoDetail video={this.state.selectedVideo} />
+                    </Col>
                   <Col>
-                    {/*<VideoDetail onPlay={this.onPlay} onPause={this.onPause} video={this.state.selectedVideo}/>*/}
-                    <div className="ui segment">
-                      <h4 className="ui header">TITLE</h4>
+                  <div class="now playing" id="music" 
+                    style={{
+                    position: 'absolute', left: '50%', top: '50%',
+                    transform: 'translate(-50%, -50%)'}}>
+                      <span class="bar bar1"></span>
+                      <span class="bar bar2"></span>
+                      <span class="bar bar3"></span>
+                      <span class="bar bar4"></span>
+                      <span class="bar bar5"></span>
+                      <span class="bar bar6"></span>
+                      <span class="bar bar7"></span>
+                      <span class="bar bar8"></span>
                     </div>
-                    <div className="ui embed">
+                    <div className="ui embed" style={{position: 'absolute', left:'50%', top: '50%', transform: 'translate(-50%, -50%)'}}>
                       <ReactPlayer onPlay={this.onPlay} onPause={this.onPause} onSeek={e => console.log('onSeek', e)} onProgress={this.onProgress} onDuration={this.onDuration} 
-                      width='300px' height='200px' controls={controls} url={videoSrc} playing={playing} volume={volume} />
+                      width='0px' height='0px' controls={controls} url={videoSrc} playing={playing} volume={volume} />
                     </div>
                   </Col>
                   <Col>
