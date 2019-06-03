@@ -1,5 +1,5 @@
 .playing:after {
-  content: "Share Music.";
+  content: "Playing Music";
   text-align: center;
   font-size: 17px;
   display: block;
@@ -21,6 +21,14 @@
 }
 .paused.playing .bar {
   animation-iteration-count: 1;
+}
+.paused:after {
+  content: "Paused";
+  text-align: center;
+  font-size: 17px;
+  display: block;
+  width: 100%;
+  margin-top: 10px;
 }
 .bar1 {
   animation-delay: 0.5s;
