@@ -149,7 +149,7 @@ export default class Room extends React.Component {
       //window.location.reload();
       var newArray = this.state.watchHist.slice()
       for(var i=0; i < newArray.length; i++) {
-        if(video === newArray[i]) {
+        if(video == newArray[i]) {
           newArray.splice(i, 1) 
         }
       }
@@ -168,11 +168,11 @@ export default class Room extends React.Component {
       var qArray = this.state.queueList.slice()
 
       for(var i=0; i < qArray.length; i++) {
-        if(video === qArray[i]) {
+        if(video == qArray[i]) {
           qArray.splice(i, 1) 
         }
       }
-      if(qArray.length >= 5) {
+      if(qArray.length >= 10) {
         qArray = qArray.slice(1);
       }
       qArray.push(video)
@@ -181,8 +181,43 @@ export default class Room extends React.Component {
       this.setState({
         queueList: qArray
       })
-     }
+    }
+    
+    handleQueueSelect = (video) => {
+      //let server know to update selected video
+      socket.emit('get video', video)
+      this.setState({selectedVideo: video})
+      //window.location.reload();
+      var newArray = this.state.queueList.slice()
+      for(var i=0; i < newArray.length; i++) {
+        if(video == newArray[i]) {
+          newArray.splice(i, 1) 
+        }
+      }
+      if(newArray.length >= 10) {
+        newArray = newArray.slice(1);
+      }
+      socket.emit('update queue', newArray)
+      this.setState({
+        queueList: newArray
+      })
 
+      var newArray1 = this.state.watchHist.slice()
+      for(var i=0; i < newArray1.length; i++) {
+        if(video == newArray1[i]) {
+          newArray1.splice(i, 1) 
+        }
+      }
+      if(newArray1.length >= 5) {
+        newArray1 = newArray1.slice(1);
+      }
+      newArray1.push(video)
+      socket.emit('update history', newArray1)
+      this.setState({
+        watchHist: newArray1
+      })
+    }
+    
     handleAddToFavorites(event) {
       //get the id of the selected video
       //pass it into this user function
@@ -228,9 +263,9 @@ export default class Room extends React.Component {
       this.player.seekTo(parseFloat(e.target.value))
     }
 
-    seekTo = (fraction, type) => {
+    seekTo = (fraction) => {
       if (!this.player) return null
-      this.player.seekTo(fraction, type)
+      
     }
 
     onProgress = state => {
@@ -242,13 +277,13 @@ export default class Room extends React.Component {
     }
 
     onEnded = () => {
-      if (!this.state.queueList.length === 0) {
+      if (!this.state.queueList.length == 0) {
         this.setState({selectedVideo: this.state.queueList[0]})
         this.state.queueList.shift()
 
         var newArray = this.state.watchHist.slice()
         for(var i=0; i < newArray.length; i++) {
-          if(this.state.selectedVideo === newArray[i]) {
+          if(this.state.selectedVideo == newArray[i]) {
             newArray.splice(i, 1) 
           }
         }
@@ -295,6 +330,12 @@ export default class Room extends React.Component {
                   <Row>
                     <Col>
                       <VideoDetail video={this.state.selectedVideo} />
+                      <br />
+                      <div className="ui embed">
+                      <ReactPlayer onPlay={this.onPlay} onPause={this.onPause} onSeek={e => console.log('onSeek', e)} onProgress={this.onProgress}
+                        onDuration={this.onDuration} onEnded={this.onEnded}
+                        width='400px' height='100px' controls={controls} url={videoSrc} playing={playing} volume={volume} />
+                    </div>
                     </Col>
                   <Col>
                   <div class="now playing" id="music" 
@@ -310,10 +351,6 @@ export default class Room extends React.Component {
                       <span class="bar bar7"></span>
                       <span class="bar bar8"></span>
                     </div>
-                    <div className="ui embed" style={{position: 'absolute', left:'50%', top: '50%', transform: 'translate(-50%, -50%)'}}>
-                      <ReactPlayer onPlay={this.onPlay} onPause={this.onPause} onSeek={e => console.log('onSeek', e)} onProgress={this.onProgress} onDuration={this.onDuration} 
-                      width='0px' height='0px' controls={controls} url={videoSrc} playing={playing} volume={volume} />
-                    </div>
                   </Col>
                   <Col>
                     <ButtonToolbar>
@@ -321,7 +358,7 @@ export default class Room extends React.Component {
                     </ButtonToolbar>
                     <br />
                     <input type='range' min={0} max={1} step='any'
-                      value={played} onMouseDown={this.onSeekMouseDown} onChange={this.onSeekChange} onMouseUp={this.onSeekMouseUp}
+                      value={played} /* onMouseDown={this.onSeekMouseDown} onChange={this.onSeekChange} onMouseUp={this.onSeekMouseUp} */
                     />
                     <br /><Duration seconds={duration * played} /> / <Duration seconds={duration} />
                     <br />
@@ -365,7 +402,7 @@ export default class Room extends React.Component {
                     </Col>
                     <Col>
                       <h4>Queue</h4>
-                      <VideoQueue handleVidQSelect={this.handleVidQSelect} queueList={this.state.queueList} />
+                      <VideoQueue handleQueueSelect={this.handleQueueSelect} queueList={this.state.queueList} />
                     </Col>
                   </Row>
             </Container>
