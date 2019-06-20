@@ -1,4 +1,7 @@
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Music Sharing
+The DJ-IRS Music Player is a music-sharing web application where users can search for music and sync with others users to listen to the same song.
 
 ## Available Scripts
 ***Install firebase and bootstrap into your project ***
